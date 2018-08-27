@@ -21,10 +21,16 @@ html, body {
     box-shadow: gray 0 5px 5px;
 }
 
-#header input {
+#search-box-container {
+    width: calc(100% - 100px);
+    padding: 50px;
+}
+
+#search-box {
+    background-color: #ccc;
+
     width: calc(100% - 50px);
     font-size: 2.5rem;
-    opacity: 0.5;
     border: 0px solid transparent;
     border-radius: 10px;
 

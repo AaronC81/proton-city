@@ -8,15 +8,16 @@ export class App extends React.Component<AppProps, AppState> {
     render() {
         return (
             <div>
+                <div id="header">
+                    <h1>Proton City</h1>
+                </div>
                 <GameSearch />
                 <hr id="separator" />
                 <div id="footer">
-                    This web app fetches data from /r/ProtonForSteam's <a href="https://docs.google.com/spreadsheets/d/1DcZZQ4HL_Ol969UbXJmFG8TzOHNnHoj8Q1f8DIFe8-8/edit">compatibility Google Sheet</a> and
+                    This web app uses a data dump of /r/ProtonForSteam's <a href="https://docs.google.com/spreadsheets/d/1DcZZQ4HL_Ol969UbXJmFG8TzOHNnHoj8Q1f8DIFe8-8/edit">compatibility Google Sheet</a> and
                     presents it as a much more practical search engine.
                     <br />
                     Games are scored from 5 to 0, with 5 being "Completely Stable" and 0 being "Won't Start".
-                    <br />
-                    If you'd like to add games to this list, then submit <a href="https://docs.google.com/forms/d/e/1FAIpQLSeefaYQduMST_lg0IsYxZko8tHLKe2vtVZLFaPNycyhY4bidQ/viewform">their Google Form</a>.
                     <br />
                     This was created by <a href="https://twitter.com/OrangeFlash81">Aaron Christiansen</a>.
                     <br />
@@ -66,9 +67,9 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     render() {
         return (
             <div>
-                <div id="header">
-                    <h1>Proton City</h1>
+                <div id="search-box-container">
                     <input
+                        id="search-box"
                         type="text"
                         value={this.state.searchTerm}
                         onChange={this.handleSearchTermChange.bind(this)} />
