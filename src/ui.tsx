@@ -20,13 +20,6 @@ export class App extends React.Component<AppProps, AppState> {
                     <br />
                     This was created by <a href="https://twitter.com/OrangeFlash81">Aaron Christiansen</a>.
                     <br />
-                    <small>
-                        If you really like this project, you can donate Nano
-                        to <i>xrb_1e6qmoinsd4nk9ffi5wfs7niy5i1tgykpqh87sw1oedxx65jdc449jf8uupg</i>.
-                        Donations will be used to buy a domain and server hosting
-                        so that Sheet queries can be cached, making this faster.
-                        Any excess will be donated to Macmillan.
-                    </small>
                 </div>
             </div>
         )
@@ -74,7 +67,7 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
         return (
             <div>
                 <div id="header">
-                    <h1>Proton Compatibility Checker</h1>
+                    <h1>Proton City</h1>
                     <input
                         type="text"
                         value={this.state.searchTerm}
@@ -142,6 +135,7 @@ class GameRow extends React.Component<GameRowProps, GameRowState> {
         )
     }
 
+    // TODO: <object> hack doesn't work in chrome or safari
     render() {
         const game = this.props.game
         console.log(game)
