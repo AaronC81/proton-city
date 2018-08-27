@@ -2,4 +2,4 @@
 mkdir -p docs
 mkdir -p docs/js
 cp -a public/. docs/
-browserify src/index.ts -p [ tsify --noImplicitAny ] -o docs/js/bundle.js
+browserify src/index.tsx -p [ tsify --noImplicitAny ] -o docs/js/bundle.js
