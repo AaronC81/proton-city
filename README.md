@@ -19,3 +19,6 @@ is in `docs`.
         report for a game
   - [ ] Search Steam library to recommend games with low number of reports
   - [ ] Each game has its own page so it can be linked to
+
+## Contributing
+Just submit a pull request!
