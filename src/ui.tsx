@@ -10,6 +10,9 @@ export class App extends React.Component<AppProps, AppState> {
             <div>
                 <div id="header">
                     <h1>Proton City</h1>
+                    <div id="nav">
+                        <a href="/">Search</a> | <a href="https://github.com/OrangeFlash81/proton-city">GitHub</a>
+                    </div>
                 </div>
                 <GameSearch />
                 <hr id="separator" />

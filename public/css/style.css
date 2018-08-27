@@ -21,6 +21,15 @@ html, body {
     box-shadow: gray 0 5px 5px;
 }
 
+#header #nav {
+    font-size: 1.4rem;
+}
+
+#header #nav a {
+    text-decoration: none;
+    color: rgb(27, 42, 255)
+}
+
 #search-box-container {
     width: calc(100% - 100px);
     padding: 50px;
