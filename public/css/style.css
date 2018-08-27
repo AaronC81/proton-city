@@ -1,0 +1,114 @@
+html, body {
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+
+    background-color: #eee;
+}
+
+* {
+    font-family: Lato, Tahoma, Verdana, sans-serif
+}
+
+#header {
+    background-image: url("../img/bg.png");
+    background-size: cover;
+    padding: 20px;
+
+    padding-left: 50px;
+    padding-right: 50px;
+
+    box-shadow: gray 0 5px 5px;
+}
+
+#header input {
+    width: calc(100% - 50px);
+    font-size: 2.5rem;
+    opacity: 0.5;
+    border: 0px solid transparent;
+    border-radius: 10px;
+
+    padding: 25px;
+}
+
+#results {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+#results h2.info {
+    text-align: center;
+    color: #666;
+}
+
+.game-box {
+    background-color: white;
+    margin: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: gray 3px 3px 3px;
+}
+
+.game-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    cursor: pointer;
+}
+
+.game-row-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.game-row-info img, .game-row-info object {
+    height: 100px;
+}
+
+.game-row-info h2 {
+    padding: 10px;
+}
+
+.game-row-score {
+    text-align: center;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-width: 150px;
+}
+
+.game-row-score .hero {
+    font-size: 2rem;
+}
+
+.game-details table thead {
+    font-weight: bold;
+}
+
+.game-details .links {
+    padding: 10px;
+}
+
+.game-details table, .game-details tr, .game-details td {
+    border: 1px solid gray;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+hr#separator {
+    border: 0;
+    height: 1px;
+    margin: 20px;
+    background-image: linear-gradient(to right, rgba(128, 128, 128, 0), rgba(128, 128, 128, 0.5), rgba(128, 128, 128, 0));
+}
+
+#footer {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 20px;
+}
+
+#footer br {
+    line-height: 2.5rem;
+}
