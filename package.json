@@ -6,6 +6,7 @@
     "tsify": "^4.0.0"
   },
   "dependencies": {
+    "firebase": "^5.4.1",
     "typescript": "^3.0.1"
   }
 }
