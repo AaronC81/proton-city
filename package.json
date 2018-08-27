@@ -1,4 +1,11 @@
 {
   "name": "proton-city",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "tsify": "^4.0.0"
+  },
+  "dependencies": {
+    "typescript": "^3.0.1"
+  }
 }
