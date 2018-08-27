@@ -135,7 +135,8 @@ class GameRow extends React.Component<GameRowProps, GameRowState> {
         )
     }
 
-    // TODO: <object> hack doesn't work in chrome or safari
+    thumbImg: HTMLImageElement
+
     render() {
         const game = this.props.game
         console.log(game)
@@ -143,9 +144,18 @@ class GameRow extends React.Component<GameRowProps, GameRowState> {
             <div className="game-box">
                 <div className="game-row" onClick={this.toggleDetails.bind(this)}>
                     <div className="game-row-info">
-                        <object data={ game.gameImage } type="image/jpg">
-                            <img src="img/nothumb.jpg" alt="Thumbnail" /> 
-                        </object>   
+                        <img
+                            src={ game.gameImage }
+                            ref={x => this.thumbImg = x} 
+                            onError={
+                                // Show a different image on load error
+                                () => {
+                                    if (this.thumbImg.src != "img/nothumb.jpg") {
+                                        this.thumbImg.src = "img/nothumb.jpg"
+                                    }
+                                }
+                            }
+                            alt="Thumbnail" /> 
                         <h2>{ game.gameName }</h2>
                     </div>
                     <div className="game-row-score"
