@@ -1,5 +1,5 @@
 # Proton City
-[http://proton.city/](proton.city)
+[http://proton.city/](http://proton.city/)
 
 This is a web app which lets you look up the compatibility of various Steam
 games when used with Proton on Windows.
