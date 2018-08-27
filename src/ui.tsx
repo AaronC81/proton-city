@@ -144,6 +144,7 @@ class GameRow extends React.Component<GameRowProps, GameRowState> {
 
     render() {
         const game = this.props.game
+        console.log(game)
         return (
             <div className="game-box">
                 <div className="game-row" onClick={this.toggleDetails.bind(this)}>

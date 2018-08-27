@@ -19,10 +19,18 @@ export class Game {
 
     entries: GameCompatEntry[];
 
+    constructor(obj: any = {}) {
+        const thisGame = this as any;
+
+        $.each(obj, (key: any, val: any) => {
+            thisGame[key] = val;
+        });
+    }
+
     /**
      * The average stateScore of all GameEntry instances in this GameGroup.
      */
-    get averageStateScore(): number {
+    public get averageStateScore(): number {
         const scores = this.entries.map(x => x.stateScore);
         const sum = scores.reduce((a, b) => a + b, 0);
         const average = (sum / this.entries.length);
@@ -35,7 +43,7 @@ export class Game {
      * green being 5, in the form of a CSS 'rgb' call.
      * TODO: Pretty naff
      */
-    get averageStateColor() {
+    public get averageStateColor() {
         // Make the score out of 255 instead
         const offsetScore = this.averageStateScore * (255 / 5);
         
@@ -63,6 +71,14 @@ export class GameCompatEntry {
     // New submissions will save a Unix timestamp. Old submissions (from G Sheet)
     // save a text date, e.g. "23 Aug".
     submissionDate: string | number;
+
+    constructor(obj: any = {}) {
+        const thisGame = this as any;
+
+        $.each(obj, (key: any, val: any) => {
+            thisGame[key] = val;
+        });
+    }
 
     /**
      * A score out of 5 representing how well this game works, calculated from
@@ -104,7 +120,22 @@ export class DatabaseCache {
                 .ref("/")
                 .once("value");
 
-            w.protonCityCachedIndexedDatabase = dbSnap.val();
+            let val = dbSnap.val() as object;
+            
+            // Convert these to actual Game and GameCompatEntry instances so
+            // we can use their methods
+            let arrayVal = $.map(val, (gameObj: any, key: string) => {
+                let game = new Game(gameObj)
+                game.entries = gameObj.entries.map((entryObj: any) =>
+                    new GameCompatEntry(entryObj))
+
+                return [ [key, game] ];
+            })
+            
+            let objVal = arrayVal.reduce(
+                (o: any, kv: any) => (o[kv[0]] = kv[1], o), {});
+
+            w.protonCityCachedIndexedDatabase = objVal;
         }
         
         return w.protonCityCachedIndexedDatabase;
