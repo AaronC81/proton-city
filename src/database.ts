@@ -19,6 +19,9 @@ export class Game {
 
     entries: GameCompatEntry[];
 
+    /**
+     * Pass a JSON object to convert it to an instance.
+     */
     constructor(obj: any = {}) {
         const thisGame = this as any;
 
@@ -72,6 +75,9 @@ export class GameCompatEntry {
     // save a text date, e.g. "23 Aug".
     submissionDate: string | number;
 
+    /**
+     * Pass a JSON object to convert it to an instance.
+     */
     constructor(obj: any = {}) {
         const thisGame = this as any;
 
@@ -171,7 +177,7 @@ export async function getGameById(id: string): Promise<Game> {
 }
 
 /**
- * Search for a game on Steam, returning an array of titles and app IDs.
+ * Search for a game.
  */
 export async function gameSearch(term: string, max: number = 10): Promise<Game[]> {
     const allGames = await DatabaseCache.getDatabase();
