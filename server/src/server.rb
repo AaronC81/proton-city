@@ -15,7 +15,7 @@ end
 
 set :public_folder, File.dirname(__FILE__) + '/../../docs'
 
-DB = Sequel.sqlite(File.dirname(__FILE__) + '/../../db/proton-city.db')
+DB = Sequel.sqlite('sqlite://' + File.dirname(__FILE__) + '/../../db/proton-city.db')
 
 DB.create_table? :entries do
   primary_key :id
