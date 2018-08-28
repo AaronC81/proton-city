@@ -48,25 +48,32 @@ get '/' do
   redirect to('/index.html')
 end
 
-get '/api/games/search/:term' do
-  uri_decoded = URI::decode(params['term'])
-  url = "https://store.steampowered.com/api/storesearch/?term=#{uri_decoded}"
-  json = JSON.parse(HTTP.get(url).to_s)
-
-  json['items'].map { |x| { name: x['name'], id: x['id'] } }.to_json
-end
-
-get '/api/games/search/:term/with_entries' do
-  uri_decoded = URI::decode(params['term'])
+def game_search(term)
+  uri_decoded = URI::decode(term)
   url = "https://store.steampowered.com/api/storesearch/?term=#{uri_decoded}"
   json = JSON.parse(HTTP.get(url).to_s)
 
   json['items'].map do |x|
     {
-      name: x['name'],
-      id: x['id'],
-      entries: (entries.where(game_id: x['id']).all || {})
+      game_name: x['name'],
+      game_id: x['id'],
+      game_image:
+        "https://steamcdn-a.akamaihd.net/steam/apps/#{x['id']}/header.jpg",
+      store_link:
+        "https://store.steampowered.com/app/#{x['id']}/"
     }
+  end
+end
+
+get '/api/games/search/:term' do
+  game_search(params['term']).to_json
+end
+
+get '/api/games/search/:term/with_entries' do
+  game_search(params['term']).map do |x|
+    x.merge({
+      entries: (entries.where(game_id: x[:game_id]) || {}).to_a
+    })
   end.to_json
 end
 
@@ -80,6 +87,8 @@ get '/api/games/:id/entries' do
 end
 
 post '/api/games/:id/entries' do
+  halt 401
+
   json = JSON.parse(request.body.read)
 
   user_steam_id = nil # TODO: FIND FROM SESSIONS, ACTS AS AUTH TOO
