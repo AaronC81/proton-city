@@ -2,7 +2,7 @@
 [http://proton.city/](http://proton.city/)
 
 This is a web app which lets you look up the compatibility of various Steam
-games when used with Proton on Windows.
+games when used with Proton on Linux.
 
 It uses a dump of the /r/ProtonForSteam Google Sheet, imported into Firebase.
 
