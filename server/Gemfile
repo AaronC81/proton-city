@@ -5,4 +5,5 @@ source 'https://rubygems.org' do
     gem 'omniauth'
     gem 'steam-api'
     gem 'http'
+    gem 'sqlite3'
 end
