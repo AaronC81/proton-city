@@ -121,3 +121,5 @@ post '/api/auth/:name/callback' do
 
   { session_token: session_token }.to_json
 end
+
+run Sinatra::Application.run!
