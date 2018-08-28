@@ -46,19 +46,13 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
 
     async setSearchResults() {
         const searchResults = await Database.gameSearch(this.state.searchTerm);
-
+        
         this.setState({ searchResults })
     }
 
     renderResults(): JSX.Element {
         if (this.state.searchTerm.length < 3) {
             return <h2 className="info">Type the name of the game.</h2>
-        }
-
-        if (!Database.DatabaseCache.databaseCached) {
-            return <h2 className="info">
-                Hold on, we're still loading the game list...
-            </h2>
         }
 
         return this.state.searchResults.length == 0
@@ -110,7 +104,6 @@ class GameRow extends React.Component<GameRowProps, GameRowState> {
                 <table>
                     <thead>
                         <tr>
-                            <td>Date</td>
                             <td>State</td>
                             <td>Description</td>
                             <td>Distro</td>
@@ -122,7 +115,6 @@ class GameRow extends React.Component<GameRowProps, GameRowState> {
                         {
                             game.entries.reverse().map((entry, i) =>
                                 <tr key={i}>
-                                    <td>{ entry.submissionDate }</td>
                                     <td><b>{ entry.state }</b></td>
                                     <td>{ entry.description }</td>
                                     <td>{ entry.distro }</td>
@@ -163,8 +155,17 @@ class GameRow extends React.Component<GameRowProps, GameRowState> {
                         <h2>{ game.gameName }</h2>
                     </div>
                     <div className="game-row-score"
-                        style={{ backgroundColor: game.averageStateColor }}>
-                        <div className="hero">{ game.averageStateScore }</div>
+                        style={
+                            {
+                                backgroundColor: isNaN(game.averageStateScore)
+                                    ? "white"
+                                    : game.averageStateColor
+                            }
+                        }>
+                        <div className="hero">
+                            { isNaN(game.averageStateScore)
+                                 ? "N/A" : game.averageStateScore }
+                        </div>
                         { game.entries.length } entries
                     </div>
                 </div>

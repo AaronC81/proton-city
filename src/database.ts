@@ -1,12 +1,4 @@
-import { initializeApp, database } from "firebase"
 import * as $ from "jquery"
-
-// TODO: This approach of downloading the whole database isn't ideal.
-// Currently, we fetch the ENTIRE Firebase, which will hammer bandwidth and
-// eventually probably cost me a lot of money.
-// Need to look into ElasticSearch/Algolia on a FB Function.
-
-// TODO: Also, the search only searches games which actually have an entry.
 
 /**
  * A game in the database, which contains all of its compatibility entries.
@@ -23,11 +15,12 @@ export class Game {
      * Pass a JSON object to convert it to an instance.
      */
     constructor(obj: any = {}) {
-        const thisGame = this as any;
+        this.gameId = obj["game_id"]
+        this.gameImage = obj["game_image"]
+        this.gameName = obj["game_name"]
+        this.storeLink = obj["store_link"]
 
-        $.each(obj, (key: any, val: any) => {
-            thisGame[key] = val;
-        });
+        this.entries = obj["entries"].map((x: any) => new GameCompatEntry(x))
     }
 
     /**
@@ -79,11 +72,15 @@ export class GameCompatEntry {
      * Pass a JSON object to convert it to an instance.
      */
     constructor(obj: any = {}) {
-        const thisGame = this as any;
-
-        $.each(obj, (key: any, val: any) => {
-            thisGame[key] = val;
-        });
+        this.description = obj["description"]
+        this.distro = obj["distro"]
+        this.drivers = obj["drivers"]
+        this.hardware = obj["hardware"]
+        this.gameId = obj["game_id"]
+        this.nativeVersion = obj["native_version"]
+        this.protonVersion = obj["proton_version"]
+        this.gameVersion = obj["game_version"]
+        this.state = obj["state"]
     }
 
     /**
@@ -104,84 +101,10 @@ export class GameCompatEntry {
 }
 
 /**
- * Handles fetching and caching the entire Firebase database.
- */
-export class DatabaseCache {
-    /**
-     * Gets the database, or a cached version of it.
-     */
-    static async getDatabase(): Promise<Game[]> {
-        const idDb = await this.getIndexedDatabase();
-        return Object.keys(idDb).map(k => idDb[k]);
-    }
-
-    /**
-     * Gets the indexed database, or a cached version of it.
-     */
-    static async getIndexedDatabase(): Promise<{ [key: string]: Game }> {
-        const w = window as any;
-
-        if (!this.databaseCached) {
-            let dbSnap = await database()
-                .ref("/")
-                .once("value");
-
-            let val = dbSnap.val() as object;
-            
-            // Convert these to actual Game and GameCompatEntry instances so
-            // we can use their methods
-            let arrayVal = $.map(val, (gameObj: any, key: string) => {
-                let game = new Game(gameObj)
-                game.entries = gameObj.entries.map((entryObj: any) =>
-                    new GameCompatEntry(entryObj))
-
-                return [ [key, game] ];
-            })
-            
-            let objVal = arrayVal.reduce(
-                (o: any, kv: any) => (o[kv[0]] = kv[1], o), {});
-
-            w.protonCityCachedIndexedDatabase = objVal;
-        }
-        
-        return w.protonCityCachedIndexedDatabase;
-    }
-
-    /**
-     * A boolean indicating whether the database has been cached yet.
-     */
-    static get databaseCached(): boolean {
-        return (window as any).protonCityCachedIndexedDatabase != undefined;
-    }
-}
-
-/**
- * Readies the database for use.
- */
-export function prepareDatabase() {
-    var config = {
-        apiKey: "AIzaSyCoCwMR3oaM_5HPKjiSisg2U-IXK3Of42A",
-        authDomain: "proton-city.firebaseapp.com",
-        databaseURL: "https://proton-city.firebaseio.com/",
-        storageBucket: "bucket.appspot.com"
-    };
-    initializeApp(config);
-}
-
-/**
- * Given a game's Steam ID, gets the data for that game.
- */
-export async function getGameById(id: string): Promise<Game> {
-    const idDb = await DatabaseCache.getIndexedDatabase();
-    return idDb[id];
-}
-
-/**
  * Search for a game.
  */
-export async function gameSearch(term: string, max: number = 10): Promise<Game[]> {
-    const allGames = await DatabaseCache.getDatabase();
+export async function gameSearch(term: string): Promise<Game[]> {
+    const result = await $.getJSON(`/api/games/search/${encodeURI(term)}/with_entries`)
 
-    return allGames.filter(game =>
-        game.gameName.toLowerCase().includes(term.toLowerCase())).slice(0, max);
+    return result.map((x: any) => new Game(x))
 }
