@@ -1,6 +1,20 @@
 import * as Database from "./database"
 import * as React from "react"
 
+type HeaderProps = {}
+type HeaderState = {}
+
+export class Header extends React.Component<HeaderProps, HeaderState> {
+    render() {
+        return <div id="header">
+            <h1>Proton City</h1>
+            <div id="nav">
+                <a href="/">Search</a> | <a href="https://github.com/OrangeFlash81/proton-city">GitHub</a>
+            </div>
+        </div>
+    }
+}
+
 type AppProps = {}
 type AppState = {}
 
@@ -8,12 +22,7 @@ export class App extends React.Component<AppProps, AppState> {
     render() {
         return (
             <div>
-                <div id="header">
-                    <h1>Proton City</h1>
-                    <div id="nav">
-                        <a href="/">Search</a> | <a href="https://github.com/OrangeFlash81/proton-city">GitHub</a>
-                    </div>
-                </div>
+                <Header />
                 <GameSearch />
                 <hr id="separator" />
                 <div id="footer">
