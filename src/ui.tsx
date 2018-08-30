@@ -31,34 +31,43 @@ export class App extends React.Component<AppProps, AppState> {
 }
 
 type GameSearchProps = {}
-type GameSearchState = { searchTerm: string, searchResults: Database.Game[] }
+type GameSearchState = {
+    searchTerm: string,
+    searchResults: Database.Game[],
+    loading: boolean
+}
 
 class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     constructor(props: GameSearchProps) {
         super(props)
-        this.state = { searchTerm: "", searchResults: [] }
+        this.state = { searchTerm: "", searchResults: [], loading: false }
     }
 
     handleSearchTermChange(event: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({ searchTerm: event.target.value })
-        this.setSearchResults()
+        this.setState({ searchTerm: event.target.value, loading: true });
+        this.setSearchResults();
     }
 
     async setSearchResults() {
+        if (this.state.searchTerm.length < 3) {
+            this.setState({ loading: false });
+            return;
+        }
         const searchResults = await Database.gameSearch(this.state.searchTerm);
-        
-        this.setState({ searchResults })
+        this.setState({ searchResults, loading: false });
     }
 
     renderResults(): JSX.Element {
-        if (this.state.searchTerm.length < 3) {
-            return <h2 className="info">Type the name of the game.</h2>
+        if (this.state.searchTerm.length == 0) {
+            return <h2 className="info"></h2>
+        } else if (this.state.searchTerm.length < 3) {
+            return <h2 className="info">Type at least 3 characters.</h2>
+        } else {
+            return this.state.searchResults.length == 0
+                ? <h2 className="info">No results.</h2>
+                : <div>{this.state.searchResults.map((game, i) =>
+                    <GameRow game={game} key={i} />)}</div>
         }
-
-        return this.state.searchResults.length == 0
-            ? <h2 className="info">No results.</h2>
-            : <div>{this.state.searchResults.map((game, i) =>
-                <GameRow game={game} key={i} />)}</div>
     }
 
     render() {
@@ -69,10 +78,13 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
                         id="search-box"
                         type="text"
                         value={this.state.searchTerm}
-                        onChange={this.handleSearchTermChange.bind(this)} />
+                        onChange={this.handleSearchTermChange.bind(this)}
+                        placeholder="Type the name of a game" />
                 </div>
                 <div id="results">
-                    {this.renderResults()}
+                    { this.state.loading
+                        ? <h2 className="info">Loading...</h2>
+                        : this.renderResults()}
                 </div>
             </div>
         )
