@@ -111,7 +111,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
 
     toggleDetails() {
         if (this.props.fixed) return;
-        
+
         this.setState({ showingDetails: !this.state.showingDetails })
     }
 
@@ -122,6 +122,8 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                 <div className="links">
                     <a href={ game.storeLink }>
                         Steam Store page
+                    </a> | <a href={ `/game.html?id=${this.props.game.gameId}` }>
+                        Copy Permalink
                     </a>
                 </div>
                 <table>
