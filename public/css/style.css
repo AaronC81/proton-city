@@ -105,6 +105,10 @@ html, body {
     padding: 10px;
 }
 
+.game-details table {
+    width: 100%;
+}
+
 .game-details table, .game-details tr, .game-details td {
     border: 1px solid gray;
     border-collapse: collapse;
