@@ -53,9 +53,7 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     }
 
     handleSearchTermChange(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log(event.target.value)
         this.setState({ searchTerm: event.target.value, loading: true }, () => {
-            console.log(this.state);
             this.setSearchResults();    
         })
     }
@@ -163,7 +161,6 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
 
     render() {
         const game = this.props.game
-        console.log(game)
         return (
             <div className="game-box">
                 <div className="game-row" onClick={this.toggleDetails.bind(this)}>
