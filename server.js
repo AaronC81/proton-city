@@ -1,6 +1,7 @@
 const express = require("express");
 const request = require("request-promise-native");
-const Database = require("better-sqlite3")
+const Database = require("better-sqlite3");
+const steam = require("steam-login");
 
 const app = express();
 const db = new Database("db/proton-city.db");
@@ -20,15 +21,21 @@ DB.create_table? :entries do
   String :user_steam_id
   DateTime :submission_time
 end
-
-DB.create_table? :sessions do
-  primary_key :id
-  String :steam_id
-  String :session_token
-end
 */
 
 app.use(express.static('docs'));
+app.use(require('express-session')(
+    {
+        resave: false,
+        saveUninitialized: false,
+        secret: process.env.PROTON_CITY_SESSION_SECRET
+    }
+));
+app.use(steam.middleware({
+	realm: 'http://localhost:8080/', 
+    verify: 'http://localhost:8080/steamauth/verify',
+	apiKey: process.env.PROTON_CITY_STEAM_KEY
+}));
 
 app.get('/', (req, res) => {
     res.redirect("/index.html");
@@ -99,5 +106,26 @@ app.get('/api/games/:id', (req, res) => {
 app.get('/api/games/:id/entries', (req, res) => {
     getEntries(req.params.id, rows => res.send(JSON.stringify(rows)));
 });
+
+app.get('/steamauth/info', steam.enforceLogin('/steamauth/invalid'), (req, res) => {
+    res.send(req.user)
+})
+
+app.get('/steamauth/authenticate', steam.authenticate(), (req, res) => {
+    res.redirect("/");
+});
+
+app.get('/steamauth/verify', steam.verify(), (req, res) => {
+    res.redirect("/");
+});
+
+app.get('/steamauth/logout', steam.enforceLogin('/'), (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
+
+app.get('/steamauth/invalid', (req, res) => {
+    res.status(401).send("Unauthorized");
+})
 
 app.listen("8080", "0.0.0.0")
