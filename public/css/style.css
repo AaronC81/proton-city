@@ -72,12 +72,18 @@ html, body {
     cursor: pointer;
 }
 
+@media only screen and (max-width: 480px) {
+    .game-row {
+        flex-direction: column;
+    }
+}
+
 .game-row-info {
     display: flex;
     flex-direction: row;
 }
 
-.game-row-info img, .game-row-info object {
+.game-row-info img {
     height: 100px;
 }
 
