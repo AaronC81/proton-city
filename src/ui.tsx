@@ -53,8 +53,11 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     }
 
     handleSearchTermChange(event: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({ searchTerm: event.target.value, loading: true });
-        this.setSearchResults();
+        console.log(event.target.value)
+        this.setState({ searchTerm: event.target.value, loading: true }, () => {
+            console.log(this.state);
+            this.setSearchResults();    
+        })
     }
 
     async setSearchResults() {
