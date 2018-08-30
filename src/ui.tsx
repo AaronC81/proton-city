@@ -123,7 +123,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                     <a href={ game.storeLink }>
                         Steam Store page
                     </a> | <a href={ `/game.html?id=${this.props.game.gameId}` }>
-                        Copy Permalink
+                        Permalink
                     </a>
                 </div>
                 <table>
