@@ -94,7 +94,7 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
 type GameRowProps = { game: Database.Game }
 type GameRowState = { showingDetails: boolean } 
 
-class GameRow extends React.Component<GameRowProps, GameRowState> {
+export class GameRow extends React.Component<GameRowProps, GameRowState> {
     constructor(props: GameRowProps) {
         super(props)
         this.state = { showingDetails: false }
