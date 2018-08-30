@@ -108,3 +108,9 @@ export async function gameSearch(term: string): Promise<Game[]> {
 
     return result.map((x: any) => new Game(x))
 }
+
+export async function gameById(id: string): Promise<Game> {
+    const result = await $.getJSON(`/api/games/${id}`);
+
+    return new Game(result);
+}

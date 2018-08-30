@@ -100,16 +100,18 @@ class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     }
 }
 
-type GameRowProps = { game: Database.Game }
+type GameRowProps = { game: Database.Game, fixed?: boolean }
 type GameRowState = { showingDetails: boolean } 
 
 export class GameRow extends React.Component<GameRowProps, GameRowState> {
     constructor(props: GameRowProps) {
         super(props)
-        this.state = { showingDetails: false }
+        this.state = { showingDetails: props.fixed }
     }
 
     toggleDetails() {
+        if (this.props.fixed) return;
+        
         this.setState({ showingDetails: !this.state.showingDetails })
     }
 
