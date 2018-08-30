@@ -14,11 +14,11 @@ is in `docs`.
 
   - [X] Basic per-game checking
   - [ ] Steam login flow
-  - [ ] Add new compatibility reports (via Steam login)
-  - [ ] Show games not in Firebase on search, so that one can make the first
+  - [ ] Add new compatibility reports (maybe via Steam login)
+  - [X] Show games not in database on search, so that one can make the first
         report for a game
   - [ ] Search Steam library to recommend games with low number of reports
-  - [ ] Each game has its own page so it can be linked to
+  - [X] Each game has its own page so it can be linked to
 
 ## Contributing
 Just submit a pull request!
