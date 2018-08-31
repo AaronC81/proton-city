@@ -54,19 +54,20 @@ async function gameById(id) {
         `https://store.steampowered.com/api/appdetails?appids=${id}`
     const result = await request.get(target_uri);
     const json = JSON.parse(result);
-    const entries = getEntries(id);
 
-    const data = json[id].data;
-
-    return {
-        game_name: data.name,
-        game_id: data.steam_appid,
-        game_image:
-            `https://steamcdn-a.akamaihd.net/steam/apps/${data.steam_appid}/header.jpg`,
-        store_link:
-            `https://store.steampowered.com/app/${data.steam_appid}/`,
-        entries: entries
-    };
+    return Object.keys(json).map(key => {
+        data = json[key].data;
+        if (data == undefined) return null;
+        return {
+            game_name: data.name,
+            game_id: data.steam_appid,
+            game_image:
+                `https://steamcdn-a.akamaihd.net/steam/apps/${data.steam_appid}/header.jpg`,
+            store_link:
+                `https://store.steampowered.com/app/${data.steam_appid}/`,
+            entries: getEntries(key)
+        };
+    })[0];
 }
 
 async function gameSearch(term) {
@@ -110,6 +111,25 @@ app.get('/api/games/:id', api, async (req, res) => {
 
 app.get('/api/games/:id/entries', api, async (req, res) => {
     res.send(getEntries(req.params.id));
+});
+
+app.get('/api/user/:id/owned', api, async (req, res) => {
+    const url = "http://api.steampowered.com/IPlayerService/GetOwnedGames" +
+        `/v0001/?key=${process.env.PROTON_CITY_STEAM_KEY}` +
+        `&steamid=${req.params.id}` +
+        "&format=json"
+
+    const ownedGamesRaw = await request.get(url);
+    const ownedGames = JSON.parse(ownedGamesRaw);
+    const ownedGameIds = Object.keys(ownedGames.response.games)
+        .map(key => ownedGames.response.games[key].appid);
+
+    console.log(ownedGameIds);
+    const gamesInfo = await Promise.all(
+        ownedGameIds.map(gameById)
+    );
+
+    res.send(gamesInfo.filter(x => x != null));
 });
 
 app.get('/steamauth/info', steam.enforceLogin('/steamauth/invalid'), (req, res) => {
