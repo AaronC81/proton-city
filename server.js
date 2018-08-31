@@ -113,7 +113,7 @@ app.get('/api/games/:id/entries', api, async (req, res) => {
 });
 
 app.get('/steamauth/info', steam.enforceLogin('/steamauth/invalid'), (req, res) => {
-    res.send(req.user)
+    res.send(req.user);
 });
 
 app.get('/steamauth/authenticate', steam.authenticate(), (req, res) => {
