@@ -4,6 +4,8 @@ const Database = require("better-sqlite3");
 const steam = require("steam-login");
 
 const app = express();
+require('express-async-await')(app);
+
 const db = new Database("db/proton-city.db");
 
 /*
@@ -40,6 +42,12 @@ app.use(steam.middleware({
 app.get('/', (req, res) => {
     res.redirect("/index.html");
 });
+
+// Middleware for API routes.
+function api(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
+    next();
+}
 
 async function gameById(id) {
     const target_uri =
@@ -83,46 +91,30 @@ function getEntries(gameId) {
     return stmt.all(gameId.toString());
 }
 
-/**
- * Express middleware which returns a JSON error response if the route throws.
- */
-function apiSafe(req, res, next) {
-    try {
-        next();
-    } catch (e) {
-        res.send({ 
-            errorMessage: e.message
-        });
-    }
-}
-
-app.get('/api/games/search/:term', apiSafe, (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    gameSearch(req.params.term).then(games =>
-        res.send(JSON.stringify(games)));
+app.get('/api/games/search/:term', api, async (req, res) => {
+    const games = await gameSearch(req.params.term);
+    res.send(games);
 });
 
-app.get('/api/games/search/:term/with_entries', apiSafe, (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    gameSearch(req.params.term).then(games =>
-        res.send(JSON.stringify(games.map(game => {
-            return {...game, ...{ entries: getEntries(game.game_id) }}
-        })))
-    );
+app.get('/api/games/search/:term/with_entries', api, async (req, res) => {
+    const games = await gameSearch(req.params.term);
+    res.send(games.map(game => {
+        return {...game, ...{ entries: getEntries(game.game_id) }}
+    }));
 });
 
-app.get('/api/games/:id', apiSafe, (req, res) => {
-    gameById(parseInt(req.params.id)).then(game =>
-        res.send(JSON.stringify(game)));
-})
+app.get('/api/games/:id', api, async (req, res) => {
+    const game = await gameById(parseInt(req.params.id));
+    res.send(game);
+});
 
-app.get('/api/games/:id/entries', apiSafe, (req, res) => {
-    getEntries(req.params.id, rows => res.send(JSON.stringify(rows)));
+app.get('/api/games/:id/entries', api, async (req, res) => {
+    res.send(getEntries(req.params.id));
 });
 
 app.get('/steamauth/info', steam.enforceLogin('/steamauth/invalid'), (req, res) => {
     res.send(req.user)
-})
+});
 
 app.get('/steamauth/authenticate', steam.authenticate(), (req, res) => {
     res.redirect("/");
@@ -139,6 +131,13 @@ app.get('/steamauth/logout', steam.enforceLogin('/'), (req, res) => {
 
 app.get('/steamauth/invalid', (req, res) => {
     res.status(401).send("Unauthorized");
+});
+
+// Error handler for API routes.
+app.use('/api', (err, req, res, next) => {
+    res.status(500).send({ 
+        errorMessage: err.message
+    });
 });
 
 app.listen("8080", "0.0.0.0")
