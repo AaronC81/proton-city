@@ -83,13 +83,26 @@ function getEntries(gameId) {
     return stmt.all(gameId.toString());
 }
 
-app.get('/api/games/search/:term', (req, res) => {
+/**
+ * Express middleware which returns a JSON error response if the route throws.
+ */
+function apiSafe(req, res, next) {
+    try {
+        next();
+    } catch (e) {
+        res.send({ 
+            errorMessage: e.message
+        });
+    }
+}
+
+app.get('/api/games/search/:term', apiSafe, (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     gameSearch(req.params.term).then(games =>
         res.send(JSON.stringify(games)));
 });
 
-app.get('/api/games/search/:term/with_entries', (req, res) => {
+app.get('/api/games/search/:term/with_entries', apiSafe, (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     gameSearch(req.params.term).then(games =>
         res.send(JSON.stringify(games.map(game => {
@@ -98,12 +111,12 @@ app.get('/api/games/search/:term/with_entries', (req, res) => {
     );
 });
 
-app.get('/api/games/:id', (req, res) => {
+app.get('/api/games/:id', apiSafe, (req, res) => {
     gameById(parseInt(req.params.id)).then(game =>
         res.send(JSON.stringify(game)));
 })
 
-app.get('/api/games/:id/entries', (req, res) => {
+app.get('/api/games/:id/entries', apiSafe, (req, res) => {
     getEntries(req.params.id, rows => res.send(JSON.stringify(rows)));
 });
 
