@@ -126,6 +126,6 @@ app.get('/steamauth/logout', steam.enforceLogin('/'), (req, res) => {
 
 app.get('/steamauth/invalid', (req, res) => {
     res.status(401).send("Unauthorized");
-})
+});
 
 app.listen("8080", "0.0.0.0")
