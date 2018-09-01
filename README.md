@@ -22,7 +22,7 @@ It uses a dump of the /r/ProtonForSteam Google Sheet, imported into SQLite.
 
   - [X] Basic per-game checking
   - [X] Steam login flow
-  - [ ] Add new compatibility reports (maybe via Steam login)
+  - [ ] Add new compatibility reports through a Google Form wrapper
   - [X] Show games not in database on search, so that one can make the first
         report for a game
   - [X] Search Steam library to recommend games with low number of reports

@@ -20,6 +20,7 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
                     <a href="/">Search</a>
                     &nbsp;| <a href="/user_games.html"><b>NEW!</b> My Games</a> 
                     &nbsp;| <a href="https://addons.mozilla.org/en-GB/firefox/addon/proton-city/"><b>NEW!</b> Firefox Extension</a>
+                    &nbsp;| <a href="https://docs.google.com/forms/d/e/1FAIpQLSeefaYQduMST_lg0IsYxZko8tHLKe2vtVZLFaPNycyhY4bidQ/viewform">Submit</a>
                     &nbsp;| <a href="https://github.com/OrangeFlash81/proton-city">GitHub</a>
                 </div>
             </div>
