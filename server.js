@@ -12,16 +12,16 @@ const db = new Database("db/proton-city.db");
 Schema:
 DB.create_table? :entries do
   primary_key :id
-  String :description
-  String :distro
-  String :hardware
-  String :game_id
-  String :native_version
-  String :proton_version # TODO: Replace default
-  String :game_version
-  String :state
+  ! String :description
+  ! String :distro
+  ! String :hardware
+  ! String :game_id
+  ! String :native_version
+  ! String :proton_version # TODO: Replace default
+  ! String :game_version
+  ! String :state
   String :user_steam_id
-  DateTime :submission_time
+  ! DateTime :submission_time
 end
 */
 
@@ -44,6 +44,111 @@ app.use(steam.middleware({
 app.get('/', (req, res) => {
     res.redirect("/index.html");
 });
+
+class GoogleSheet {
+    /**
+     * Refreshes the cache if it must be refreshed.
+     */
+    static async refreshCacheIfRequired() {
+        if (this.cacheTime != undefined) {
+            // Get cache age in minutes
+            const age = (Date.now() - this.cacheTime) / 1000 / 60;
+            if (age < 15) {
+                return;
+            }
+        }
+
+        // If we're here, the cache must be refreshed
+        const raw = await this.getRaw();
+        this.cache = this.groupRowsByKey(raw);
+    }
+
+    static getEntries(id) {
+        this.refreshCacheIfRequired();
+        return this.cache[id] || [];
+    }
+
+    /**
+     * Gets the raw rows of the Google Sheet.
+     */
+    static async getRaw() {
+        const id = "1DcZZQ4HL_Ol969UbXJmFG8TzOHNnHoj8Q1f8DIFe8-8";    
+        const gameUrl =
+            `https://docs.google.com/spreadsheets/d/${id}/gviz/tq` +
+            "?tpx=out:json&sheet=Submissions";
+        const response = await request.get(gameUrl);
+        var jsonResponse;
+        const google = {
+            visualization: {
+                Query: {
+                    setResponse: x => {
+                        jsonResponse = x;
+                    }
+                }
+            }
+        }
+        // Our source is trusted, this is OK
+        eval(response);
+
+        return jsonResponse.table.rows.map(x => x.c);
+    }
+
+    /**
+     * Given a row of the table, converts it to an Entry object.
+     */
+    static rowToEntryObject(row) {
+        // Dates are in format Date(2018, 7, 27)
+        // This converts to [2018, 7, 27]
+        const dateParts = row[2].v
+            .replace("Date(", "").replace(")", "")
+            .split(",")
+            .map(parseInt);
+
+        function safeV(index) {
+            if (row[index] == null) {
+                return null;
+            }
+            return row[index].v;
+        }
+
+        try {
+            return {
+                game_id: row[0].v,
+                description: row[5].v,
+                state: row[4].v,
+                submission_date: new Date(dateParts[0], dateParts[1], dateParts[2]),
+                distro: row[6].v,
+                hardware: row[8].v,
+                graphics_version: safeV(7),
+                game_version: safeV(9),
+                proton_version: safeV(10)
+            }
+        } catch (e) {}
+    }
+
+    /**
+     * Converts the given rows to Entry objects, then groups them into an object
+     * indexed by app ID.
+     */
+    static groupRowsByKey(rows) {
+        const objects = rows.map(this.rowToEntryObject);
+        const result = {}
+
+        objects.forEach(object => {
+            if (object == undefined) {
+                return;
+            }
+            const id = object.game_id.toString();
+            if (result[id] == undefined) {
+                result[id] = [];
+            }
+
+            result[id].push(object);
+        });
+
+        return result;
+    }
+}
 
 // Middleware for API routes.
 function api(req, res, next) {
@@ -89,9 +194,7 @@ async function gameSearch(term) {
 }
 
 function getEntries(gameId) {
-    const stmt =
-        db.prepare("SELECT * FROM entries WHERE game_id=?");
-    return stmt.all(gameId.toString());
+    return GoogleSheet.getEntries(gameId);
 }
 
 app.get('/api/games/search/:term', api, async (req, res) => {
