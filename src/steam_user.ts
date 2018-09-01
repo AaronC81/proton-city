@@ -11,7 +11,7 @@ export class SteamUser {
     static async info() {
         const userInfo = await $.getJSON("/api/user/info");
 
-        if (userInfo.errorMessage) {
+        if (userInfo.error_message) {
             return null;
         }
 
