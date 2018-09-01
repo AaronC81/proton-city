@@ -4,11 +4,12 @@ import * as Database from "../database";
 import { Loader } from "./loader";
 import { GameRow } from "./game_row";
 
-type UserGamesProps = {};
-type UserGamesState = { signedIn: boolean, games: Database.Game[] };
+type UserGamesPageProps = {};
+type UserGamesPageState = { signedIn: boolean, games: Database.Game[] };
 
-export class UserGames extends React.Component<UserGamesProps, UserGamesState> {
-    constructor(props: UserGamesProps) {
+export class UserGamesPage
+    extends React.Component<UserGamesPageProps, UserGamesPageState> {
+    constructor(props: UserGamesPageProps) {
         super(props);
         this.state = { signedIn: null, games: null };
     }
