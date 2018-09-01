@@ -25,6 +25,7 @@ DB.create_table? :entries do
 end
 */
 
+app.use(require('body-parser').json());
 app.use(express.static('docs'));
 app.use(require('express-session')(
     {
@@ -140,6 +141,33 @@ app.get('/api/user/info', api, steam.enforceLogin('/api/user/none'), (req, res) 
 app.get('/api/user/none', api, (req, res) => {
     throw new Error("Not authenticated");
 })
+// EXPERIMENTAL. Not indented as an endpoint for actual use.
+app.post('/api/formsubmit', api, steam.enforceLogin('/steamauth/authenticate'),
+    async (req, res) => {
+        const jsonBody = req.body;
+        const gameId = jsonBody.game_id
+        const gameInfo = await gameById(gameId);
+
+        // Map actual data to Google Forms fields
+        const formData = {
+            "entry.1749841339": gameId,
+            "entry.1362798785": gameInfo.game_name,
+            "entry.1093685090": jsonBody.distro,
+            "entry.838626445": jsonBody.graphics_version,
+            "entry.1860993042": jsonBody.hardware,
+            "entry.325314142": jsonBody.state,
+            "entry.555963429": jsonBody.description,
+            "entry.52236258": jsonBody.game_version,
+            "entry.477478923": jsonBody.proton_version
+        };
+
+        const result = await request.post("https://docs.google.com/forms/d/e/" +
+            "1FAIpQLSeefaYQduMST_lg0IsYxZko8tHLKe2vtVZLFaPNycyhY4bidQ/" +
+            "formResponse", { formData });
+        
+        res.send({});
+    }
+);
 
 app.get('/steamauth/info', steam.enforceLogin('/steamauth/invalid'), (req, res) => {
     res.send(req.user);
