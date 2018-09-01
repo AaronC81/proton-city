@@ -4,20 +4,33 @@ import * as Database from "../database";
 type GameRowProps = { game: Database.Game, fixed?: boolean }
 type GameRowState = { showingDetails: boolean } 
 
+/**
+ * A row representing a game, which displays its score. Can be clicked to 
+ * toggle more details.
+ */
 export class GameRow extends React.Component<GameRowProps, GameRowState> {
     constructor(props: GameRowProps) {
         super(props)
+
+        // If this is fixed, start it open, otherwise start it closed
         this.state = { showingDetails: props.fixed }
     }
 
+    /**
+     * Show details if they're hidden, or hide them if they're showing. Does
+     * nothing if fixed.
+     */
     toggleDetails() {
         if (this.props.fixed) return;
 
-        this.setState({ showingDetails: !this.state.showingDetails })
+        this.setState({ showingDetails: !this.state.showingDetails });
     }
 
+    /**
+     * Renders the details portion of this row.
+     */
     getDetails() {
-        const game = this.props.game
+        const game = this.props.game;
         return (
             <div>
                 <div className="links">
@@ -45,7 +58,9 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                                     <td>{ entry.description }</td>
                                     <td>{ entry.distro }</td>
                                     <td>
-                                        { entry.drivers }, { entry.gameVersion || "Unknown" }, { entry.protonVersion } Proton
+                                        { entry.drivers || "Unknown"},{" "}
+                                        { entry.gameVersion || "Unknown" },{" "}
+                                        { entry.protonVersion } Proton
                                     </td>
                                     <td>{ entry.hardware }</td>
                                 </tr>
@@ -57,7 +72,10 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
         )
     }
 
-    thumbImg: HTMLImageElement
+    /**
+     * A reference to the thumbnail image element.
+     */
+    thumbImg: HTMLImageElement;
 
     render() {
         const game = this.props.game
@@ -82,6 +100,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                     <div className="game-row-score"
                         style={
                             {
+                                /* Show white on N/A */
                                 backgroundColor: isNaN(game.averageStateScore)
                                     ? "white"
                                     : game.averageStateColor
