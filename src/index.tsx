@@ -4,17 +4,12 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import * as $ from "jquery"
 
-async function main() {
-    // Try rendering the main app
-    try {
-        const el = ReactDOM.render(<UI.GameSearchPage />, $("#app")[0]) as
-            UI.GameSearchPage;
-    } catch (e) {
-        console.error(e);
-    }
+(window as any).protonCitySelectRoute = async (route: string) => {
+    const target = $("#app")[0];
 
-    // Try rendering an individual game, using URL param
-    try {
+    if (route == "index") {
+        ReactDOM.render(<UI.GameSearchPage />, target)
+    } else if (route == "game") {
         // Credit to Stack Overflow
         function getParameterByName(name: string) {
             var match = RegExp('[?&]' + name + '=([^&]*)')
@@ -23,18 +18,11 @@ async function main() {
         }
         
         const game = await Database.gameById(getParameterByName("id"))
-        const el = ReactDOM.render(<div>
+        ReactDOM.render(<div>
                 <UI.Header />
                 <UI.GameRow game={game} fixed={true} />
-            </div>,
-            $("#game")[0]) as UI.GameRow;
-    } catch (e) {
-        console.error(e);
+            </div>, target);
+    } else {
+        console.error("Unknown route");
     }
-
-    console.log("Using API");
-    
-    (window as any).db = Database
 }
-
-main();
