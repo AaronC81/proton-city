@@ -58,7 +58,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                                     <td>{ entry.description }</td>
                                     <td>{ entry.distro }</td>
                                     <td>
-                                        { entry.drivers || "Unknown"},{" "}
+                                        { entry.graphicsVersion || "Unknown"},{" "}
                                         { entry.gameVersion || "Unknown" },{" "}
                                         { entry.protonVersion } Proton
                                     </td>

@@ -56,10 +56,9 @@ export class Game {
 export class GameCompatEntry {
     description: string;
     distro: string;
-    drivers: string;
+    graphicsVersion: string;
     hardware: string;
     gameId: string;
-    nativeVersion: string;
     protonVersion: string;
     gameVersion: string;
     state: string; // TODO: Convert to enum
@@ -74,10 +73,9 @@ export class GameCompatEntry {
     constructor(obj: any = {}) {
         this.description = obj["description"]
         this.distro = obj["distro"]
-        this.drivers = obj["drivers"]
+        this.graphicsVersion = obj["graphics_version"]
         this.hardware = obj["hardware"]
         this.gameId = obj["game_id"]
-        this.nativeVersion = obj["native_version"]
         this.protonVersion = obj["proton_version"]
         this.gameVersion = obj["game_version"]
         this.state = obj["state"]
