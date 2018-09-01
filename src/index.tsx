@@ -7,7 +7,8 @@ import * as $ from "jquery"
 async function main() {
     // Try rendering the main app
     try {
-        const el = ReactDOM.render(<UI.App />, $("#app")[0]) as UI.App;
+        const el = ReactDOM.render(<UI.GameSearchPage />, $("#app")[0]) as
+            UI.GameSearchPage;
     } catch (e) {
         console.error(e);
     }

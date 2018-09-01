@@ -15,10 +15,11 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
     }
 }
 
-type AppProps = {}
-type AppState = {}
+type GameSearchPageProps = {}
+type GameSearchPageState = {}
 
-export class App extends React.Component<AppProps, AppState> {
+export class GameSearchPage
+    extends React.Component<GameSearchPageProps, GameSearchPageState> {
     render() {
         return (
             <div>
