@@ -8,23 +8,6 @@ require('express-async-await')(app);
 
 const db = new Database("db/proton-city.db");
 
-/*
-Schema:
-DB.create_table? :entries do
-  primary_key :id
-  ! String :description
-  ! String :distro
-  ! String :hardware
-  ! String :game_id
-  ! String :native_version
-  ! String :proton_version # TODO: Replace default
-  ! String :game_version
-  ! String :state
-  String :user_steam_id
-  ! DateTime :submission_time
-end
-*/
-
 app.use(require('body-parser').json());
 app.use(express.static('docs'));
 app.use(require('express-session')(
