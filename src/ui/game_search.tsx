@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Database from "../database";
 import { GameRow } from "./game_row";
+import { Loader } from "./loader";
 
 type GameSearchProps = {}
 type GameSearchState = {
@@ -56,7 +57,7 @@ export class GameSearch extends React.Component<GameSearchProps, GameSearchState
                 </div>
                 <div id="results">
                     { this.state.loading
-                        ? <h2 className="info">Loading...</h2>
+                        ? <Loader />
                         : this.renderResults()}
                 </div>
             </div>
