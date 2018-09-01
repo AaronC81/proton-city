@@ -17,7 +17,9 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
             <div>
                 <h1>Proton City</h1>
                 <div id="nav">
-                    <a href="/">Search</a> | <a href="https://github.com/OrangeFlash81/proton-city">GitHub</a>
+                    <a href="/">Search</a>
+                    &nbsp;| <a href="/user_games.html"><b>NEW!</b> My Games</a> 
+                    &nbsp;| <a href="https://github.com/OrangeFlash81/proton-city">GitHub</a>
                 </div>
             </div>
             <div>

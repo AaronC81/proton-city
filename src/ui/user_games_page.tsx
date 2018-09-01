@@ -63,12 +63,15 @@ export class UserGamesPage
     }
 
     render() {
-        // TODO: Make this better
         if (this.state.games == null && this.state.signedIn == null) {
             return <Loader />;
         }
         if (!this.state.signedIn) {
-            return <h1>You aren't signed in!</h1>;
+            return <div id="results">
+                <h1>
+                    You need to <a href="/steamauth/authenticate">sign in</a> first.
+                </h1>
+            </div>;
         }
 
         return <div>
