@@ -244,7 +244,8 @@ app.post('/api/formsubmit', api, steam.enforceLogin('/steamauth/authenticate'),
             "entry.325314142": jsonBody.state,
             "entry.555963429": jsonBody.description,
             "entry.52236258": jsonBody.game_version,
-            "entry.477478923": jsonBody.proton_version
+            "entry.477478923": "__other_option__",
+            "entry.477478923.other_option_response": jsonBody.proton_version
         };
 
         const result = await request.post("https://docs.google.com/forms/d/e/" +
