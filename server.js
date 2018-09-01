@@ -137,7 +137,7 @@ app.get('/api/user/info', api, steam.enforceLogin('/api/user/none'), (req, res) 
 });
 
 app.get('/api/user/none', api, (req, res) => {
-    res.send({ errorMessage: "Not authenticated" });
+    throw new Error("Not authenticated");
 })
 
 app.get('/steamauth/info', steam.enforceLogin('/steamauth/invalid'), (req, res) => {
@@ -164,7 +164,7 @@ app.get('/steamauth/invalid', (req, res) => {
 // Error handler for API routes.
 app.use('/api', (err, req, res, next) => {
     res.status(500).send({ 
-        errorMessage: err.message
+        error_message: err.message
     });
 });
 
