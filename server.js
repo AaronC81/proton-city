@@ -132,6 +132,14 @@ app.get('/api/user/:id/owned', api, async (req, res) => {
     res.send(gamesInfo.filter(x => x != null));
 });
 
+app.get('/api/user/info', api, steam.enforceLogin('/api/user/none'), (req, res) => {
+    res.send(req.user);
+});
+
+app.get('/api/user/none', api, (req, res) => {
+    res.send({ errorMessage: "Not authenticated" });
+})
+
 app.get('/steamauth/info', steam.enforceLogin('/steamauth/invalid'), (req, res) => {
     res.send(req.user);
 });
