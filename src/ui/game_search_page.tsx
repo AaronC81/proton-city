@@ -10,7 +10,6 @@ export class GameSearchPage
     render() {
         return (
             <div>
-                <Header />
                 <GameSearch />
                 <hr id="separator" />
                 <div id="footer">

@@ -4,12 +4,9 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import * as $ from "jquery"
 
-(window as any).protonCitySelectRoute = async (route: string) => {
-    const target = $("#app")[0];
-
+async function getComponentByRoute(route: string) {
     if (route == "index") {
-        // TODO: For consistency, should remove Header from this page
-        ReactDOM.render(<UI.GameSearchPage />, target)
+        return <UI.GameSearchPage />;
     } else if (route == "game") {
         // Credit to Stack Overflow
         function getParameterByName(name: string) {
@@ -18,17 +15,33 @@ import * as $ from "jquery"
             return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
         }
         
-        const game = await Database.gameById(getParameterByName("id"))
-        ReactDOM.render(<div>
-            <UI.Header />
-            <UI.GameRow game={game} fixed={true} />
-        </div>, target);
+        const game = await Database.gameById(getParameterByName("id"));
+            
+        return <UI.GameRow game={game} fixed={true} />;
     } else if (route == "user_games") {
-        ReactDOM.render(<div>
-            <UI.Header />
-            <UI.UserGamesPage />
-        </div>, target);
+        return <UI.UserGamesPage />;
     } else {
-        console.error("Unknown route");
+        return null;
     }
+}
+
+(window as any).protonCitySelectRoute = async (route: string) => {
+    const target = $("#app")[0];
+
+    // Render a loader for routes with processing (e.g. "game")
+    ReactDOM.render(<div>
+        <UI.Header />
+        <UI.Loader />
+    </div>, target)
+
+    const component = await getComponentByRoute(route);
+    if (component == null) {
+        console.error("Invalid route");
+        return;
+    }
+
+    ReactDOM.render(<div>
+        <UI.Header />
+        { component }
+    </div>, target);
 }
