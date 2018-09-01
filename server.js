@@ -33,9 +33,10 @@ app.use(require('express-session')(
         secret: process.env.PROTON_CITY_SESSION_SECRET
     }
 ));
+// TODO: Detect realm somehow?
 app.use(steam.middleware({
-	realm: 'http://localhost:8080/', 
-    verify: 'http://localhost:8080/steamauth/verify',
+	realm: 'https://proton.city/', 
+    verify: 'https://proton.city/steamauth/verify',
 	apiKey: process.env.PROTON_CITY_STEAM_KEY
 }));
 
