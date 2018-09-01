@@ -26,6 +26,11 @@ export class SteamUser {
      */
     static async ownedGames(): Promise<Database.Game[]> {
         const games = await $.getJSON("/api/user/owned");
+
+        if (games.error_message) {
+            return null;
+        }
+
         return games.map((game: any) => new Database.Game(game));
     }
 }
