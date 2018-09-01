@@ -12,6 +12,8 @@ export class UserGamesPage
     constructor(props: UserGamesPageProps) {
         super(props);
         this.state = { signedIn: null, games: null };
+
+        this.getGames();
     }
 
     /**
