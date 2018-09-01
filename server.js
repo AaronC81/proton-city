@@ -113,10 +113,10 @@ app.get('/api/games/:id/entries', api, async (req, res) => {
     res.send(getEntries(req.params.id));
 });
 
-app.get('/api/user/:id/owned', api, async (req, res) => {
+app.get('/api/user/owned', api, steam.enforceLogin('/api/user/none'), async (req, res) => {
     const url = "http://api.steampowered.com/IPlayerService/GetOwnedGames" +
         `/v0001/?key=${process.env.PROTON_CITY_STEAM_KEY}` +
-        `&steamid=${req.params.id}` +
+        `&steamid=${req.user.steamid}` +
         "&format=json"
 
     const ownedGamesRaw = await request.get(url);
