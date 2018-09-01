@@ -9,7 +9,12 @@ export class SteamUser {
      * Returns the authenticated user's info.
      */
     static async info() {
-        const userInfo = await $.getJSON("/api/user/info");
+        var userInfo;
+        try {
+            userInfo = await $.getJSON("/api/user/info");
+        } catch {
+            return null;
+        }
 
         if (userInfo.error_message) {
             return null;
@@ -25,7 +30,12 @@ export class SteamUser {
      * Gets the games owned by the authenticated user.
      */
     static async ownedGames(): Promise<Database.Game[]> {
-        const games = await $.getJSON("/api/user/owned");
+        var games;
+        try {
+            games = await $.getJSON("/api/user/owned");
+        } catch {
+            return null;
+        }
 
         if (games.error_message) {
             return null;
