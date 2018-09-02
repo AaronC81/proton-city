@@ -227,19 +227,20 @@ app.get('/api/user/info', api, steam.enforceLogin('/api/user/none'), (req, res) 
 app.get('/api/user/none', api, (req, res) => {
     throw new Error("Not authenticated");
 })
-// EXPERIMENTAL. Not indented as an endpoint for actual use.
+
 app.post('/api/formsubmit', api,
     async (req, res) => {
         const jsonBody = req.body;
-        const gameId = jsonBody.game_id
+        const gameId = jsonBody.game_id;
         const gameInfo = await gameById(gameId);
 
+        // TODO: Validate data
         // Map actual data to Google Forms fields
         const formData = {
-            "entry.1749841339": gameId,
+            "entry.1749841339": gameId, 
             "entry.1362798785": gameInfo.game_name,
-            "entry.1093685090": jsonBody.distro,
-            "entry.838626445": jsonBody.graphics_version,
+            "entry.1093685090": jsonBody.distro, //
+            "entry.838626445": jsonBody.driver_version,
             "entry.1860993042": jsonBody.hardware,
             "entry.325314142": jsonBody.state,
             "entry.555963429": jsonBody.description,
