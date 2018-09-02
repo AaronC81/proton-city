@@ -29,8 +29,8 @@ export class Account extends React.Component<AccountProps, AccountState> {
             return <Loader />
         }
         if (this.state.signedIn) {
-            return <div style={{ fontSize: "1.2rem", textAlign: "right" }}>
-                Hey, <b>{ this.state.userInfo.username }</b><br />
+            return <div>
+                Hey, <b>{ this.state.userInfo.username }</b> | 
                 <a href="/steamauth/logout" style={{ color: "blue", textDecoration: "none" }}>
                     Sign out
                 </a>
@@ -38,7 +38,7 @@ export class Account extends React.Component<AccountProps, AccountState> {
         } else {
             return <div>
                 <a href="/steamauth/authenticate">
-                    <img src="/img/signin.png" alt="Sign in"/>
+                    Sign in with Steam
                 </a>
             </div>;
         }
