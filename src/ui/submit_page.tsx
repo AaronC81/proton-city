@@ -103,6 +103,7 @@ export class SubmitPage
             fontSize: "1.2rem"
         }
         // TODO: Clientside validation (Sheets handles serverside)
+        // TODO: Save hardware, distro and drivers to localstorage
         return <form
             style={{ fontSize: "1.2rem", paddingTop: "20px" }}
             onSubmit={this.submit.bind(this)}>
