@@ -42,6 +42,7 @@ class GoogleSheet {
         }
 
         // If we're here, the cache must be refreshed
+        this.cacheTime = Date.now();
         const raw = await this.getRaw();
         this.cache = this.groupRowsByKey(raw);
     }
