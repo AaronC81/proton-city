@@ -228,7 +228,7 @@ app.get('/api/user/none', api, (req, res) => {
     throw new Error("Not authenticated");
 })
 // EXPERIMENTAL. Not indented as an endpoint for actual use.
-app.post('/api/formsubmit', api, steam.enforceLogin('/steamauth/authenticate'),
+app.post('/api/formsubmit', api,
     async (req, res) => {
         const jsonBody = req.body;
         const gameId = jsonBody.game_id
