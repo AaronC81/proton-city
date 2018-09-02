@@ -239,7 +239,7 @@ app.post('/api/formsubmit', api,
         const formData = {
             "entry.1749841339": gameId, 
             "entry.1362798785": gameInfo.game_name,
-            "entry.1093685090": jsonBody.distro, //
+            "entry.1093685090": jsonBody.distro, 
             "entry.838626445": jsonBody.driver_version,
             "entry.1860993042": jsonBody.hardware,
             "entry.325314142": jsonBody.state,
