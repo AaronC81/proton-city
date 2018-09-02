@@ -34,11 +34,13 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
         return (
             <div>
                 <div className="links">
-                    <a href={ game.storeLink }>
+                    <a href={ `/submit.html?id=${this.props.game.gameId}` }>
+                        <b>Submit a report</b>
+                    </a> | <a href={ game.storeLink }>
                         Steam Store page
                     </a> | <a href={ `/game.html?id=${this.props.game.gameId}` }>
                         Permalink
-                    </a>
+                    </a> 
                 </div>
                 <table>
                     <thead>
