@@ -2,6 +2,7 @@ import * as Database from "./database"
 import * as UI from "./ui"
 import * as React from "react"
 import * as ReactDOM from "react-dom"
+import * as ReactGA from "react-ga";
 import * as $ from "jquery"
 
 // Credit to Stack Overflow
@@ -48,4 +49,7 @@ async function getComponentByRoute(route: string) {
         <UI.Header />
         { component }
     </div>, target);
+
+    ReactGA.initialize("UA-125023815-1");
+    ReactGA.pageview(window.location.pathname);
 }
