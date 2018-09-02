@@ -4,20 +4,24 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import * as $ from "jquery"
 
+// Credit to Stack Overflow
+function getParameterByName(name: string) {
+    var match = RegExp('[?&]' + name + '=([^&]*)')
+        .exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 async function getComponentByRoute(route: string) {
     if (route == "index") {
         return <UI.GameSearchPage />;
     } else if (route == "game") {
-        // Credit to Stack Overflow
-        function getParameterByName(name: string) {
-            var match = RegExp('[?&]' + name + '=([^&]*)')
-                .exec(window.location.search);
-            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-        }
-        
         const game = await Database.gameById(getParameterByName("id"));
             
         return <UI.GameRow game={game} fixed={true} />;
+    } else if (route == "submit") {
+        const id = getParameterByName("id");
+
+        return <UI.SubmitPage id={id} />;
     } else if (route == "user_games") {
         return <UI.UserGamesPage />;
     } else {
