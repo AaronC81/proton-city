@@ -4,7 +4,10 @@ import * as $ from "jquery";
 import { Loader } from "./loader";
 
 type SubmitPageProps = { id: string };
-type SubmitPageState = { gameInfo: Database.Game };
+type SubmitPageState = {
+    gameInfo: Database.Game,
+    submission: "pending" | "success" | "failure"
+};
 
 /**
  * A page where the user can submit new game reports.
@@ -13,7 +16,7 @@ export class SubmitPage
     extends React.Component<SubmitPageProps, SubmitPageState> {
     constructor(props: SubmitPageProps) {
         super(props);
-        this.state = { gameInfo: null };
+        this.state = { gameInfo: null, submission: null };
         this.getGameInfo();
     }
 
@@ -41,21 +44,48 @@ export class SubmitPage
      * TODO: We should probably actually do something on success/fail
      */
     submit(event: React.FormEvent) {
+        event.preventDefault();
+
+        this.setState({ submission: "pending" });
+
         const body: { [id: string]: string } = {};
         ["game_id", "state", "distro", "hardware", "description",
             "driver_version", "proton_version", "game_version"].forEach(x => {
             body[x] = $(`[name=${x}]`).val().toString();
         });
+
         $.ajax({
             url: "/api/formsubmit",
             type: "POST",
             data: JSON.stringify(body),
             contentType: "application/json; charset=utf-8",
             dataType: "json"
+        }).then(() => {
+            this.setState({ submission: "success" });
+        }).catch(() => {
+            this.setState({ submission: "failure" });
         });
         
-        event.preventDefault();
         return false;
+    }
+
+    /**
+     * Render either the form or a result screen depending on state.submission.
+     */
+    renderBody() {
+        switch (this.state.submission) {
+            case null: return this.renderForm();
+            case "pending": return <Loader />;
+            case "success": return <div>
+                <h1>Submitted</h1>
+                <b>Your report has been recorded and should appear in a few hours.</b>
+            </div>;
+            case "failure": return <div>
+                <h1>Failure</h1>
+                <b>Something went wrong submitting your report.</b><br/>
+                <p>This is probably a bug. Please file a GitHub issue.</p>
+            </div>;
+        }
     }
 
     /**
@@ -72,9 +102,10 @@ export class SubmitPage
             paddingBottom: "5px",
             fontSize: "1.2rem"
         }
+        // TODO: Clientside validation (Sheets handles serverside)
         return <form
             style={{ fontSize: "1.2rem", paddingTop: "20px" }}
-            onSubmit={this.submit}>
+            onSubmit={this.submit.bind(this)}>
             <input
                 type="hidden"
                 name="game_id"
@@ -167,7 +198,7 @@ export class SubmitPage
             </b>
             {  
                 this.state.gameInfo != null
-                    ? this.renderForm()
+                    ? this.renderBody()
                     : <Loader />
             }
         </div>;
