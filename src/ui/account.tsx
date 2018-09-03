@@ -1,6 +1,7 @@
 import * as React from "react"
 import { SteamUser } from "../steam_user";
 import { Loader } from "./loader";
+import { Styles } from "./styles";
 
 type AccountProps = {}
 type AccountState = { signedIn: boolean, userInfo: any }
@@ -30,14 +31,11 @@ export class Account extends React.Component<AccountProps, AccountState> {
         }
         if (this.state.signedIn) {
             return <div>
-                Hey, <b>{ this.state.userInfo.username }</b> | 
-                <a href="/steamauth/logout" style={{ color: "blue", textDecoration: "none" }}>
-                    Sign out
-                </a>
+                Hey, <b>{ this.state.userInfo.username }</b> | <a href="/steamauth/logout" style={ Styles.navLink }>Sign out</a>
             </div>;
         } else {
             return <div>
-                <a href="/steamauth/authenticate">
+                <a href="/steamauth/authenticate" style={ Styles.navLink }>
                     Sign in with Steam
                 </a>
             </div>;
