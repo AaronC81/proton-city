@@ -44,9 +44,9 @@ export class Account extends React.Component<AccountProps, AccountState> {
             </WhiteDiv>;
         } else {
             return <div>
-                <a href="/steamauth/authenticate" style={ Styles.navLink }>
+                <WhiteLink href="/steamauth/authenticate">
                     Sign in with Steam
-                </a>
+                </WhiteLink>
             </div>;
         }
     }
