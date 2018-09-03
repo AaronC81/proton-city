@@ -30,7 +30,7 @@ export class Account extends React.Component<AccountProps, AccountState> {
             return <Loader />
         }
         if (this.state.signedIn) {
-            return <div>
+            return <div style={ Styles.navLink }>
                 Hey, <b>{ this.state.userInfo.username }</b> | <a href="/steamauth/logout" style={ Styles.navLink }>Sign out</a>
             </div>;
         } else {
