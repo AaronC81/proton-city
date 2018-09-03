@@ -5,8 +5,6 @@ const steam = require("steam-login");
 const app = express();
 require('express-async-await')(app);
 
-const db = new Database("db/proton-city.db");
-
 app.use(require('body-parser').json());
 app.use(express.static('docs'));
 app.use(require('express-session')(
