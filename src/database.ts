@@ -20,7 +20,7 @@ export class Game {
         this.gameImage = obj["game_image"]
         this.gameName = obj["game_name"]
         this.storeLink = obj["store_link"]
-        this.hasLinuxVersion = obj["has_link_version"]
+        this.hasLinuxVersion = obj["has_linux_version"]
 
         this.entries = obj["entries"].map((x: any) => new GameCompatEntry(x))
     }
