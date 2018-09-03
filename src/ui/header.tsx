@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Account, WhiteLink } from "./account"
-import { Styles } from "./styles";
 import styled from "styled-components";
 
 const OuterDiv = styled.div`

@@ -1,7 +1,6 @@
 import * as React from "react"
 import { SteamUser } from "../steam_user";
 import { Loader } from "./loader";
-import { Styles } from "./styles";
 import styled from "styled-components";
 
 export const WhiteLink = styled.a`
