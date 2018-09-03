@@ -8,6 +8,7 @@ export class Game {
     gameImage: string;
     gameName: string;
     storeLink: string;
+    hasLinuxVersion: boolean;
 
     entries: GameCompatEntry[];
 
@@ -19,6 +20,7 @@ export class Game {
         this.gameImage = obj["game_image"]
         this.gameName = obj["game_name"]
         this.storeLink = obj["store_link"]
+        this.hasLinuxVersion = obj["has_link_version"]
 
         this.entries = obj["entries"].map((x: any) => new GameCompatEntry(x))
     }
