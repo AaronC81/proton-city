@@ -153,6 +153,8 @@ async function gameById(id) {
                 `https://steamcdn-a.akamaihd.net/steam/apps/${data.steam_appid}/header.jpg`,
             store_link:
                 `https://store.steampowered.com/app/${data.steam_appid}/`,
+            has_linux_version:
+                data.platforms.linux,
             entries: getEntries(key)
         };
     })[0];
