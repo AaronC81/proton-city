@@ -172,7 +172,9 @@ async function gameSearch(term) {
         game_image:
             `https://steamcdn-a.akamaihd.net/steam/apps/${x.id}/header.jpg`,
         store_link:
-            `https://store.steampowered.com/app/${x.id}/`
+            `https://store.steampowered.com/app/${x.id}/`,
+        has_linux_version:
+            x.platforms.linux
     }));
 }
 

@@ -9,7 +9,8 @@ type UserGamesPageState = {
     signedIn: boolean,
     couldGetGames: boolean,
     games: Database.Game[],
-    sort: string
+    sort: string,
+    excludeNative: boolean
 };
 
 export class UserGamesPage
@@ -20,7 +21,8 @@ export class UserGamesPage
             signedIn: null,
             couldGetGames: null,
             games: null,
-            sort: "highest-rating-first"
+            sort: "highest-rating-first",
+            excludeNative: false
         };
 
         this.getGames();
@@ -48,6 +50,13 @@ export class UserGamesPage
      */
     updateSort(e: React.ChangeEvent<HTMLSelectElement>) {
         this.setState({ sort: e.target.value });
+    }
+
+    /**
+     * Fired when the 'Hide games with native Linux support' <input> is changed.
+     */
+    updateExcludeLinux(e: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ excludeNative: e.target.checked });
     }
 
     /**
@@ -114,10 +123,16 @@ export class UserGamesPage
                             ones I should try to fix (lowest rating first)
                         </option>
                     </select>
+                    <br/>
+                    <input type="checkbox" id="exclude-linux" onChange={this.updateExcludeLinux.bind(this)} />
+                    <label htmlFor="exclude-linux">Hide games with native Linux support</label>
                 </div>
             {
                 this.state.games
                     .sort(this.compareFunction.bind(this))
+                    .filter(game => this.state.excludeNative
+                        ? !game.hasLinuxVersion
+                        : true)
                     .map((game, i) => <GameRow game={game} key={i} />)
             }
             </div>
