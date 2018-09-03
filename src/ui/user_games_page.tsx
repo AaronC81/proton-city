@@ -3,6 +3,7 @@ import { SteamUser } from "../steam_user";
 import * as Database from "../database";
 import { Loader } from "./loader";
 import { GameRow } from "./game_row";
+import { CentredContent } from "./global_components";
 
 type UserGamesPageProps = {};
 type UserGamesPageState = {
@@ -83,23 +84,23 @@ export class UserGamesPage
             return <Loader />;
         }
         if (!this.state.signedIn) {
-            return <div id="results">
+            return <CentredContent>
                 <h1>
                     You need to <a href="/steamauth/authenticate">sign in</a> first.
                 </h1>
-            </div>;
+            </CentredContent>;
         }
         if (!this.state.couldGetGames) {
-            return <div id="results">
+            return <CentredContent>
                 <h1>
                     Couldn't get your games.
                 </h1>
                 <p>Try signing out and back in. Also, this may occur if your Steam profile is private.</p>
-            </div>
+            </CentredContent>
         }
 
         return <div>
-            <div id="results">
+            <CentredContent>
                 <div id="sort-selector" style={{ fontSize: "1.4rem", padding: "20px" }}>
                     Sort games by: <select
                         onChange={this.updateSort.bind(this)}
@@ -135,7 +136,7 @@ export class UserGamesPage
                         : true)
                     .map((game, i) => <GameRow game={game} key={i} />)
             }
-            </div>
+            </CentredContent>
         </div>;
     }
 }

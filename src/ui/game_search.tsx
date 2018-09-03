@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Database from "../database";
 import { GameRow } from "./game_row";
 import { Loader } from "./loader";
+import { CentredContent } from "./global_components";
 
 type GameSearchProps = { start?: string }
 type GameSearchState = {
@@ -60,11 +61,11 @@ export class GameSearch extends React.Component<GameSearchProps, GameSearchState
                             placeholder="Type the name of a game" />
                     </form>
                 </div>
-                <div id="results">
+                <CentredContent>
                     { this.state.loading
                         ? <Loader />
                         : this.renderResults()}
-                </div>
+                </CentredContent>
             </div>
         )
     }
