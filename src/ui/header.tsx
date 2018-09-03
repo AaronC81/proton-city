@@ -1,6 +1,29 @@
 import * as React from "react"
-import { Account } from "./account"
+import { Account, WhiteLink } from "./account"
 import { Styles } from "./styles";
+import styled from "styled-components";
+
+const OuterDiv = styled.div`
+    width: "100%";
+    background-image: url(/img/bg.png);
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
+const HeaderPanel = styled.div`
+    padding: 20px;
+`
+
+const WhiteSpan = styled.span`
+    color: white;
+`
+
+const LogoText = styled(WhiteSpan)`
+    font-weight: bold;
+    padding-right: 20px;
+`
 
 type HeaderProps = {}
 type HeaderState = {}
@@ -10,31 +33,19 @@ type HeaderState = {}
  */
 export class Header extends React.Component<HeaderProps, HeaderState> {
     render() {
-        return <div style={{
-                width: "100%",
-                backgroundImage: "url(/img/bg.png)",
-                backgroundSize: "cover",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between"
-            }}>
-            <div style={{ padding: "20px" }}>
-                <span style={{
-                    color: "black",
-                    fontWeight: "bold",
-                    paddingRight: "20px",
-                    ...Styles.navLink
-                }}>Proton City</span>
-                <span style={ Styles.navLink }>
-                    <a href="/" style={ Styles.navLink }>Home</a>
-                    &nbsp;| <a href="/user_games.html" style={ Styles.navLink }><b>NEW!</b> My Games</a> 
-                    &nbsp;| <a href="https://addons.mozilla.org/en-GB/firefox/addon/proton-city/" style={ Styles.navLink }><b>NEW!</b> Firefox Extension</a>
-                    &nbsp;| <a href="https://github.com/OrangeFlash81/proton-city" style={ Styles.navLink }>GitHub</a>
-                </span>
-            </div>
-            <div style={{ padding: "20px" }}>
+        return <OuterDiv>
+            <HeaderPanel>
+                <LogoText>Proton City</LogoText>
+                <WhiteSpan>
+                    <WhiteLink href="/">Home</WhiteLink>
+                    &nbsp;| <WhiteLink href="/user_games.html"><b>NEW!</b> My Games</WhiteLink> 
+                    &nbsp;| <WhiteLink href="https://addons.mozilla.org/en-GB/firefox/addon/proton-city/"><b>NEW!</b> Firefox Extension</WhiteLink>
+                    &nbsp;| <WhiteLink href="https://github.com/OrangeFlash81/proton-city">GitHub</WhiteLink>
+                </WhiteSpan>
+            </HeaderPanel>
+            <HeaderPanel>
                 <Account />
-            </div>
-        </div>
+            </HeaderPanel>
+        </OuterDiv>;
     }
 }
