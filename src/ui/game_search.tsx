@@ -50,12 +50,15 @@ export class GameSearch extends React.Component<GameSearchProps, GameSearchState
         return (
             <div>
                 <div id="search-box-container">
-                    <input
-                        id="search-box"
-                        type="text"
-                        value={this.state.searchTerm}
-                        onChange={this.handleSearchTermChange.bind(this)}
-                        placeholder="Type the name of a game" />
+                    <form action="/" method="get" onSubmit={(e) => { e.preventDefault(); return false; }}>
+                        <input
+                            id="search-box"
+                            name="search"
+                            type="text"
+                            value={this.state.searchTerm}
+                            onChange={this.handleSearchTermChange.bind(this)}
+                            placeholder="Type the name of a game" />
+                    </form>
                 </div>
                 <div id="results">
                     { this.state.loading
