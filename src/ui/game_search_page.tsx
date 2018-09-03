@@ -2,7 +2,7 @@ import * as React from "react";
 import { Header } from "./header";
 import { GameSearch } from "./game_search";
 
-type GameSearchPageProps = {}
+type GameSearchPageProps = { search?: string }
 type GameSearchPageState = {}
 
 export class GameSearchPage
@@ -10,7 +10,7 @@ export class GameSearchPage
     render() {
         return (
             <div>
-                <GameSearch />
+                <GameSearch start={this.props.search} />
                 <hr id="separator" />
                 <div id="footer">
                     This web app uses data from /r/ProtonForSteam's <a href="https://docs.google.com/spreadsheets/d/1DcZZQ4HL_Ol969UbXJmFG8TzOHNnHoj8Q1f8DIFe8-8/edit">compatibility Google Sheet</a> and

@@ -14,7 +14,7 @@ function getParameterByName(name: string) {
 
 async function getComponentByRoute(route: string) {
     if (route == "index") {
-        return <UI.GameSearchPage />;
+        return <UI.GameSearchPage search={getParameterByName("search")} />;
     } else if (route == "game") {
         const game = await Database.gameById(getParameterByName("id"));
             

@@ -3,7 +3,7 @@ import * as Database from "../database";
 import { GameRow } from "./game_row";
 import { Loader } from "./loader";
 
-type GameSearchProps = {}
+type GameSearchProps = { start?: string }
 type GameSearchState = {
     searchTerm: string,
     searchResults: Database.Game[],
@@ -13,7 +13,9 @@ type GameSearchState = {
 export class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     constructor(props: GameSearchProps) {
         super(props)
-        this.state = { searchTerm: "", searchResults: [], loading: false }
+        this.state = { searchTerm: props.start || "", searchResults: [], loading: false }
+
+        this.setSearchResults();
     }
 
     handleSearchTermChange(event: React.ChangeEvent<HTMLInputElement>) {
