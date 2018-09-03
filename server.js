@@ -1,6 +1,5 @@
 const express = require("express");
 const request = require("request-promise-native");
-const Database = require("better-sqlite3");
 const steam = require("steam-login");
 
 const app = express();
