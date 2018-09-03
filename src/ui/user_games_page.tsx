@@ -7,6 +7,7 @@ import { GameRow } from "./game_row";
 type UserGamesPageProps = {};
 type UserGamesPageState = {
     signedIn: boolean,
+    couldGetGames: boolean,
     games: Database.Game[],
     sort: string
 };
@@ -17,6 +18,7 @@ export class UserGamesPage
         super(props);
         this.state = {
             signedIn: null,
+            couldGetGames: null,
             games: null,
             sort: "highest-rating-first"
         };
@@ -28,12 +30,17 @@ export class UserGamesPage
      * Gets games and set state when finished.
      */
     async getGames() {
-        const games = await SteamUser.ownedGames();
-        if (games == null) {
+        const info = await SteamUser.info();
+        if (info == null) {
             this.setState({ signedIn: false });
             return;
         }
-        this.setState({ signedIn: true, games });
+        const games = await SteamUser.ownedGames();
+        if (games == null) {
+            this.setState({ couldGetGames: false });
+            return;
+        }
+        this.setState({ signedIn: true, couldGetGames: true, games });
     }
 
     /**
@@ -72,6 +79,14 @@ export class UserGamesPage
                     You need to <a href="/steamauth/authenticate">sign in</a> first.
                 </h1>
             </div>;
+        }
+        if (!this.state.couldGetGames) {
+            return <div id="results">
+                <h1>
+                    Couldn't get your games.
+                </h1>
+                <p>Try signing out and back in. Also, this may occur if your Steam profile is private.</p>
+            </div>
         }
 
         return <div>
