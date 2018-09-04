@@ -183,7 +183,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                         { game.entries.length } entries
                     </GameRowScorePanel>
                 </GameRowMain>
-                <div className="game-details">
+                <div>
                     {this.state.showingDetails ? this.getDetails() : <div />}
                 </div>
             </GameRowOuter>

@@ -2,6 +2,39 @@ import * as React from "react";
 import * as Database from "../database";
 import * as $ from "jquery";
 import { Loader } from "./loader";
+import styled from "styled-components";
+import { CentredContent } from "./global_components";
+
+const Form = styled.form`
+    font-size: 1.2rem;
+    padding-top: 20px;
+`
+
+const styles = `
+    background-color: white;
+    width: 100%;
+    border: 0 solid transparent;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 1.2rem;
+`
+
+const Select = styled.select`${styles}`
+const Input = styled.input`${styles}`
+
+const SubmitButton = styled.button`
+    width: 100%;
+    padding: 10px;
+    background-color: #4286f4;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 0 solid transparent;
+    border-radius: 10px;
+`
 
 type SubmitPageProps = { id: string };
 type SubmitPageState = {
@@ -92,20 +125,9 @@ export class SubmitPage
      * The form used for submissions.
      */
     renderForm() {
-        const inputStyle: React.CSSProperties = {
-            backgroundColor: "white",
-            width: "100%",
-            border: "0px solid transparent",
-            borderRadius: "10px",
-            marginBottom: "20px",
-            paddingTop: "5px",
-            paddingBottom: "5px",
-            fontSize: "1.2rem"
-        }
         // TODO: Clientside validation (Sheets handles serverside)
         // TODO: Save hardware, distro and drivers to localstorage
-        return <form
-            style={{ fontSize: "1.2rem", paddingTop: "20px" }}
+        return <Form
             onSubmit={this.submit.bind(this)}>
             <input
                 type="hidden"
@@ -113,7 +135,7 @@ export class SubmitPage
                 value={ this.state.gameInfo.gameId } />
             
             <label htmlFor="state">State:</label>
-            <select name="state" style={ inputStyle }>
+            <Select name="state">
                 <option value="Completely Stable">
                     Completely Stable - runs flawlessly
                 </option>
@@ -132,63 +154,47 @@ export class SubmitPage
                 <option value="Won't Start">
                     Won't Start - can't get into the menu
                 </option>
-            </select>
+            </Select>
 
             <label htmlFor="description">Description: </label><br/>
             <small>Talk briefly about your experience and any workarounds.</small>
-            <input type="text" name="description" style={ inputStyle } />
+            <Input type="text" name="description" />
 
             <label htmlFor="hardware">Hardware: </label>
-            <input
+            <Input
                 type="text"
                 name="hardware"
-                placeholder="Intel Core i7-7700HQ / GTX 1050 Ti Max-Q"
-                style={ inputStyle } />
+                placeholder="Intel Core i7-7700HQ / GTX 1050 Ti Max-Q" />
 
             <label htmlFor="distro">Distro: </label>
-            <input
+            <Input
                 type="text"
                 name="distro"
-                placeholder="Ubuntu 16.04 (Kernel 4.18.5)"
-                style={ inputStyle } />
+                placeholder="Ubuntu 16.04 (Kernel 4.18.5)" />
 
             <label htmlFor="driver_version">Driver version: </label>
-            <input
+            <Input
                 type="text"
                 name="driver_version"
-                placeholder="Nvidia 390"
-                style={ inputStyle } />
+                placeholder="Nvidia 390" />
 
             <label htmlFor="proton_version">Proton version: </label>
-            <input
+            <Input
                 type="text"
                 name="proton_version"
-                placeholder="3.7 Beta"
-                style={ inputStyle } />
+                placeholder="3.7 Beta" />
 
             <label htmlFor="game_version">Game version: </label>
-            <input
+            <Input
                 type="text"
-                name="game_version"
-                style={ inputStyle } />
+                name="game_version" />
 
-            <button style={{
-                width: "100%",
-                padding: "10px",
-                backgroundColor: "#4286f4",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                border: "0px solid transparent",
-                borderRadius: "10px" }}>
-                Submit
-            </button>
-        </form>;
+            <SubmitButton>Submit</SubmitButton>
+        </Form>;
     }
 
     render() {
-        return <div style={{ margin: "0 auto", maxWidth: "1000px" }}>
+        return <CentredContent>
             <h1>Submit report for { this.gameName() || "..." }</h1>
             <b>
                 NOTE: Reports are currently subject to a manual review process
@@ -202,6 +208,6 @@ export class SubmitPage
                     ? this.renderBody()
                     : <Loader />
             }
-        </div>;
+        </CentredContent>;
     }
 }
