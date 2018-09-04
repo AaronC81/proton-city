@@ -29,6 +29,11 @@ const SearchInput = styled.input`
     padding: 25px;
 `
 
+const ResultStatus = styled.h2`
+    text-align: center;
+    color: #666;
+`
+
 export class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     constructor(props: GameSearchProps) {
         super(props)
@@ -54,12 +59,12 @@ export class GameSearch extends React.Component<GameSearchProps, GameSearchState
 
     renderResults(): JSX.Element {
         if (this.state.searchTerm.length == 0) {
-            return <h2 className="info"></h2>
+            return <ResultStatus />
         } else if (this.state.searchTerm.length < 3) {
-            return <h2 className="info">Type at least 3 characters.</h2>
+            return <ResultStatus>Type at least 3 characters.</ResultStatus>
         } else {
             return this.state.searchResults.length == 0
-                ? <h2 className="info">No results.</h2>
+                ? <ResultStatus>No results.</ResultStatus>
                 : <div>{this.state.searchResults.map((game, i) =>
                     <GameRow game={game} key={i} />)}</div>
         }
