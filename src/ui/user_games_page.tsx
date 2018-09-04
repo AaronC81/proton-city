@@ -4,6 +4,19 @@ import * as Database from "../database";
 import { Loader } from "./loader";
 import { GameRow } from "./game_row";
 import { CentredContent } from "./global_components";
+import styled from "styled-components";
+
+const FilterPanel = styled.div`
+    font-size: 1.4rem;
+    padding: 20px;
+`
+
+const FilterSelect = styled.select`
+    padding: 10px;
+    border: 0 solid transparent;
+    border-radius: 10px;
+    font-size: 1.4rem;
+`
 
 type UserGamesPageProps = {};
 type UserGamesPageState = {
@@ -101,16 +114,10 @@ export class UserGamesPage
 
         return <div>
             <CentredContent>
-                <div id="sort-selector" style={{ fontSize: "1.4rem", padding: "20px" }}>
-                    Sort games by: <select
-                        onChange={this.updateSort.bind(this)}
+                <FilterPanel>
+                    Sort games by: <FilterSelect
+                        onChange={this.updateSort.bind(this)}>
                         // TODO: A tad ugly on Firefox
-                        style={{
-                            padding: "10px",
-                            border: "0 solid transparent",
-                            borderRadius: "10px",
-                            fontSize: "1.4rem"
-                        }}>
                         <option value="highest-rating-first">
                             ones which work well (highest rating first)
                         </option>
@@ -123,11 +130,11 @@ export class UserGamesPage
                         <option value="lowest-rating-first">
                             ones I should try to fix (lowest rating first)
                         </option>
-                    </select>
+                    </FilterSelect>
                     <br/>
                     <input type="checkbox" id="exclude-linux" onChange={this.updateExcludeLinux.bind(this)} />
                     <label htmlFor="exclude-linux">Hide games with native Linux support</label>
-                </div>
+                </FilterPanel>
             {
                 this.state.games
                     .sort(this.compareFunction.bind(this))
