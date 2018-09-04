@@ -1,5 +1,73 @@
 import * as React from "react";
 import * as Database from "../database";
+import styled from "styled-components";
+
+const GameRowOuter = styled.div`
+    background-color: white;
+    margin: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: gray 3px 3px 3px;
+`
+
+const GameRowMain = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    cursor: pointer;
+
+    @media only screen and (max-width: 480px) {
+        flex-direction: column;
+    }
+`
+
+const GameRowInfo = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
+const GameRowThumbImage = styled.img`
+    height: 100px;
+`
+
+const GameRowGameName = styled.h2`
+    padding: 10px;
+`
+
+const GameRowScorePanel = styled.div`
+    text-align: center;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-width: 150px;
+`
+
+const GameRowAverageScore = styled.div`
+    font-size: 2rem;
+`
+
+const GameDetailsLinks = styled.div`
+    padding: 10px;
+`
+
+const GameDetailsTable = styled.table`
+    width: 100%;
+
+    border: 1px solid gray;
+    border-collapse: collapse;
+    padding: 5px;
+
+    & td, tr {
+        border: 1px solid gray;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+`
+
+const GameDetailsTableHead = styled.thead`
+    font-weight: bold;
+`
 
 type GameRowProps = { game: Database.Game, fixed?: boolean }
 type GameRowState = { showingDetails: boolean } 
@@ -33,7 +101,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
         const game = this.props.game;
         return (
             <div>
-                <div className="links">
+                <GameDetailsLinks>
                     <a href={ `/submit.html?id=${this.props.game.gameId}` }>
                         <b>Submit a report</b>
                     </a> | <a href={ game.storeLink }>
@@ -41,9 +109,9 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                     </a> | <a href={ `/game.html?id=${this.props.game.gameId}` }>
                         Permalink
                     </a> 
-                </div>
-                <table>
-                    <thead>
+                </GameDetailsLinks>
+                <GameDetailsTable>
+                    <GameDetailsTableHead>
                         <tr>
                             <td>State</td>
                             <td>Description</td>
@@ -51,7 +119,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                             <td>Versions</td>
                             <td>Hardware</td>
                         </tr>
-                    </thead>
+                    </GameDetailsTableHead>
                     <tbody>
                         {
                             game.entries.reverse().map((entry, i) =>
@@ -69,7 +137,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                             )
                         }
                     </tbody>
-                </table>   
+                </GameDetailsTable>   
             </div>
         )
     }
@@ -82,12 +150,12 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
     render() {
         const game = this.props.game
         return (
-            <div className="game-box">
-                <div className="game-row" onClick={this.toggleDetails.bind(this)}>
-                    <div className="game-row-info">
-                        <img
+            <GameRowOuter>
+                <GameRowMain onClick={this.toggleDetails.bind(this)}>
+                    <GameRowInfo>
+                        <GameRowThumbImage
                             src={ game.gameImage }
-                            ref={x => this.thumbImg = x} 
+                            ref={(x: any) => this.thumbImg = x} 
                             onError={
                                 // Show a different image on load error
                                 () => {
@@ -97,9 +165,9 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                                 }
                             }
                             alt="Thumbnail" /> 
-                        <h2>{ game.gameName }</h2>
-                    </div>
-                    <div className="game-row-score"
+                        <GameRowGameName>{ game.gameName }</GameRowGameName>
+                    </GameRowInfo>
+                    <GameRowScorePanel
                         style={
                             {
                                 /* Show white on N/A */
@@ -108,17 +176,17 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                                     : game.averageStateColor
                             }
                         }>
-                        <div className="hero">
+                        <GameRowAverageScore>
                             { isNaN(game.averageStateScore)
                                  ? "N/A" : game.averageStateScore }
-                        </div>
+                        </GameRowAverageScore>
                         { game.entries.length } entries
-                    </div>
-                </div>
+                    </GameRowScorePanel>
+                </GameRowMain>
                 <div className="game-details">
                     {this.state.showingDetails ? this.getDetails() : <div />}
                 </div>
-            </div>
+            </GameRowOuter>
         )
     }
 }
