@@ -89,12 +89,11 @@ export class GameCompatEntry {
      */
     get stateScore(): number {
         const table = {
-            "Completely Stable": 5,
-            "Stable": 4,
-            "Unstable": 3,
-            "Unplayable": 2,
-            "Crashes": 1,
-            "Won't Start": 0
+            "Platinum": 5,
+            "Gold": 4,
+            "Silver": 3,
+            "Bronze": 2,
+            "Borked": 1
         }
         return (table as any)[this.state.trim()]
     }
