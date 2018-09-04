@@ -10,20 +10,3 @@ html, body {
 * {
     font-family: Lato, Tahoma, Verdana, sans-serif
 }
-
-hr#separator {
-    border: 0;
-    height: 1px;
-    margin: 20px;
-    background-image: linear-gradient(to right, rgba(128, 128, 128, 0), rgba(128, 128, 128, 0.5), rgba(128, 128, 128, 0));
-}
-
-#footer {
-    font-size: 1.2rem;
-    color: #333;
-    margin: 20px;
-}
-
-#footer br {
-    line-height: 2.5rem;
-}

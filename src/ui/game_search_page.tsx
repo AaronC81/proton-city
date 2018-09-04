@@ -1,6 +1,18 @@
 import * as React from "react";
 import { Header } from "./header";
 import { GameSearch } from "./game_search";
+import { HorizontalDivider } from "./global_components";
+import styled from "styled-components";
+
+const Footer = styled.div`
+    font-size: 1.2rem;
+    color: #333;
+    margin: 20px;
+`
+
+const Break = styled.br`
+    line-height: 2.5rem;
+`
 
 type GameSearchPageProps = { search?: string }
 type GameSearchPageState = {}
@@ -11,16 +23,16 @@ export class GameSearchPage
         return (
             <div>
                 <GameSearch start={this.props.search} />
-                <hr id="separator" />
-                <div id="footer">
+                <HorizontalDivider />
+                <Footer>
                     This web app uses data from /r/ProtonForSteam's <a href="https://docs.google.com/spreadsheets/d/1DcZZQ4HL_Ol969UbXJmFG8TzOHNnHoj8Q1f8DIFe8-8/edit">compatibility Google Sheet</a> and
                     presents it as a much more practical search engine.
-                    <br />
+                    <Break />
                     Games are scored from 5 to 0, with 5 being "Completely Stable" and 0 being "Won't Start".
-                    <br />
+                    <Break />
                     This was created by <a href="https://twitter.com/OrangeFlash81">Aaron Christiansen</a>.
-                    <br />
-                </div>
+                    <Break />
+                </Footer>
             </div>
         )
     }
