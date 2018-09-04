@@ -136,24 +136,19 @@ export class SubmitPage
             
             <label htmlFor="state">State:</label>
             <Select name="state">
-                <option value="Completely Stable">
-                    Completely Stable - runs flawlessly
-                </option>
-                <option value="Stable">
-                    Stable - runs mostly fine, with a slightly reduced framerate or other minor issues 
-                </option>
-                <option value="Unstable">
-                    Unstable - noticeable issues but is still playable
-                </option>
-                <option value="Unplayable">
-                    Unplayable - too many issues to enjoy the game
-                </option>
-                <option value="Crashes">
-                    Crashes - gameplay is interrupted by fatal errors
-                </option>
-                <option value="Won't Start">
-                    Won't Start - can't get into the menu
-                </option>
+                {
+                    [
+                        "Platinum (runs perfectly out of the box)",
+                        "Gold (runs perfectly after tweaks)",
+                        "Silver (runs with minor issues, but generally is playable)",
+                        "Bronze (runs, but often crashes or has issues preventing from playing comfortably)",
+                        "Borked (game either won't start or is crucially unplayable)"
+                    ].map(val =>
+                        <option value={val}>
+                            {val}
+                        </option>
+                    )
+                }
             </Select>
 
             <label htmlFor="description">Description: </label><br/>
