@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Database from "../database";
 import * as $ from "jquery";
 import { Loader } from "./loader";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { CentredContent } from "./global_components";
 
 const Form = styled.form`
@@ -10,7 +10,7 @@ const Form = styled.form`
     padding-top: 20px;
 `
 
-const styles = `
+const styles = css`
     background-color: white;
     width: 100%;
     border: 0 solid transparent;
