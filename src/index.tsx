@@ -47,6 +47,11 @@ async function getComponentByRoute(route: string) {
 
     ReactDOM.render(<div>
         <UI.Header />
+        <div style={{ backgroundColor: "red", color: "white", padding: "20px" }}>
+            There may be sudden downtime and report submission failures over the
+            next few days due to external spreadsheet changes. Thank you for
+            your understanding.
+        </div>
         { component }
     </div>, target);
 
