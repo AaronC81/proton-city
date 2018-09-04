@@ -11,47 +11,6 @@ html, body {
     font-family: Lato, Tahoma, Verdana, sans-serif
 }
 
-#header {
-    background-image: url("../img/bg.png");
-    background-size: cover;
-    padding: 20px;
-
-    padding-left: 50px;
-    padding-right: 50px;
-
-    box-shadow: gray 0 5px 5px;
-}
-
-#header #nav {
-    font-size: 1.4rem;
-}
-
-#header #nav a {
-    text-decoration: none;
-    color: rgb(27, 42, 255)
-}
-
-#search-box-container {
-    width: calc(100% - 100px);
-    padding: 50px;
-}
-
-#search-box {
-    background-color: white;
-
-    width: calc(100% - 50px);
-    font-size: 2.5rem;
-    border: 0px solid transparent;
-    border-radius: 10px;
-
-    padding: 25px;
-}
-
-#results {
-    margin: 0 auto;
-    max-width: 1000px;
-}
-
 #results h2.info {
     text-align: center;
     color: #666;
