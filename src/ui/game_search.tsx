@@ -3,6 +3,7 @@ import * as Database from "../database";
 import { GameRow } from "./game_row";
 import { Loader } from "./loader";
 import { CentredContent } from "./global_components";
+import styled from "styled-components";
 
 type GameSearchProps = { start?: string }
 type GameSearchState = {
@@ -10,6 +11,23 @@ type GameSearchState = {
     searchResults: Database.Game[],
     loading: boolean
 }
+
+const outPad = 50;
+const SearchContainer = styled.div`
+    width: calc(100% - ${outPad}px * 2);
+    padding: ${outPad}px;
+`;
+
+const SearchInput = styled.input`
+    background-color: white;
+
+    width: calc(100% - 50px);
+    font-size: 2.5rem;
+    border: 0px solid transparent;
+    border-radius: 10px;
+
+    padding: 25px;
+`
 
 export class GameSearch extends React.Component<GameSearchProps, GameSearchState> {
     constructor(props: GameSearchProps) {
@@ -50,9 +68,9 @@ export class GameSearch extends React.Component<GameSearchProps, GameSearchState
     render() {
         return (
             <div>
-                <div id="search-box-container">
+                <SearchContainer>
                     <form action="/" method="get" onSubmit={(e) => { e.preventDefault(); return false; }}>
-                        <input
+                        <SearchInput
                             id="search-box"
                             name="search"
                             type="text"
@@ -60,7 +78,7 @@ export class GameSearch extends React.Component<GameSearchProps, GameSearchState
                             onChange={this.handleSearchTermChange.bind(this)}
                             placeholder="Type the name of a game" />
                     </form>
-                </div>
+                </SearchContainer>
                 <CentredContent>
                     { this.state.loading
                         ? <Loader />
