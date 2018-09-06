@@ -78,13 +78,6 @@ class GoogleSheet {
      * Given a row of the table, converts it to an Entry object.
      */
     static rowToEntryObject(row) {
-        // Dates are in format Date(2018, 7, 27)
-        // This converts to [2018, 7, 27]
-        const dateParts = row[2].v
-            .replace("Date(", "").replace(")", "")
-            .split(",")
-            .map(parseInt);
-
         function safeV(index) {
             if (row[index] == null) {
                 return null;
@@ -97,7 +90,7 @@ class GoogleSheet {
                 game_id: row[0].v,
                 description: row[5].v,
                 state: row[4].v,
-                submission_date: new Date(dateParts[0], dateParts[1], dateParts[2]),
+                submission_date: row[2].f,
                 distro: row[6].v,
                 hardware: row[8].v,
                 graphics_version: safeV(7),
