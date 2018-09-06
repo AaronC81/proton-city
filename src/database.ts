@@ -81,6 +81,7 @@ export class GameCompatEntry {
         this.protonVersion = obj["proton_version"]
         this.gameVersion = obj["game_version"]
         this.state = obj["state"]
+        this.submissionDate = obj["submission_date"]
     }
 
     /**

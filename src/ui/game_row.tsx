@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Database from "../database";
 import styled from "styled-components";
+import { stat } from "fs";
 
 const GameRowOuter = styled.div`
     background-color: white;
@@ -113,6 +114,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                 <GameDetailsTable>
                     <GameDetailsTableHead>
                         <tr>
+                            <td>Date</td>
                             <td>State</td>
                             <td>Description</td>
                             <td>Distro</td>
@@ -124,6 +126,7 @@ export class GameRow extends React.Component<GameRowProps, GameRowState> {
                         {
                             game.entries.reverse().map((entry, i) =>
                                 <tr key={i}>
+                                    <td>{ entry.submissionDate }</td>
                                     <td><b>{ entry.state }</b></td>
                                     <td>{ entry.description }</td>
                                     <td>{ entry.distro }</td>
